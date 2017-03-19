@@ -1,0 +1,2 @@
+# SchoolSalaryManagementSystem
+My graduation project.
