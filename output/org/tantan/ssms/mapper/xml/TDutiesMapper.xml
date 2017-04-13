@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tantan.ssms.mapper.TDutiesMapper">
+	<!--开启二级缓存-->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+	<resultMap id="BaseResultMap" type="org.tantan.ssms.entity.TDuties">
+		<id column="Du_Id" property="duId" />
+		<result column="Du_Name" property="duName" />
+		<result column="Du_DuSalary" property="duDusalary" />
+		<result column="Du_BaseSalary" property="duBasesalary" />
+	</resultMap>
+
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+        Du_Id AS duId, Du_Name AS duName, Du_DuSalary AS duDusalary, Du_BaseSalary AS duBasesalary
+    </sql>
+</mapper>

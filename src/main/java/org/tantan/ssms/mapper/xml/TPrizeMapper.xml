@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tantan.ssms.mapper.TPrizeMapper">
+	<!--开启二级缓存-->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+	<resultMap id="BaseResultMap" type="org.tantan.ssms.entity.TPrize">
+		<id column="Sta_Id" property="staId" />
+		<result column="Pr_LongPay" property="prLongpay" />
+		<result column="Pr_Welfare" property="prWelfare" />
+		<result column="Pr_fullbonus" property="prFullbonus" />
+		<result column="Pr_Time" property="prTime" />
+	</resultMap>
+
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+        Sta_Id AS staId, Pr_LongPay AS prLongpay, Pr_Welfare AS prWelfare, Pr_fullbonus AS prFullbonus, Pr_Time AS prTime
+    </sql>
+</mapper>

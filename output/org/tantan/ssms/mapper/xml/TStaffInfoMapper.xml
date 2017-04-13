@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tantan.ssms.mapper.TStaffInfoMapper">
+	<!--开启二级缓存-->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+	<resultMap id="BaseResultMap" type="org.tantan.ssms.entity.TStaffInfo">
+		<id column="Sta_Id" property="staId" />
+		<result column="Sta_PassWord" property="staPassword" />
+		<result column="Sta_Name" property="staName" />
+		<result column="Sta_Sex" property="staSex" />
+		<result column="Sta_IdentityNum" property="staIdentitynum" />
+		<result column="Dep_Id" property="depId" />
+		<result column="Du_Id" property="duId" />
+		<result column="Sta_EntryTime" property="staEntrytime" />
+		<result column="Sta_BankAcount" property="staBankacount" />
+		<result column="Sta_Tel" property="staTel" />
+		<result column="R_Id" property="rId" />
+	</resultMap>
+
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+        Sta_Id AS staId, Sta_PassWord AS staPassword, Sta_Name AS staName, Sta_Sex AS staSex, Sta_IdentityNum AS staIdentitynum, Dep_Id AS depId, Du_Id AS duId, Sta_EntryTime AS staEntrytime, Sta_BankAcount AS staBankacount, Sta_Tel AS staTel, R_Id AS rId
+    </sql>
+</mapper>

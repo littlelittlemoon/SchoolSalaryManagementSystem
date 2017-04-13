@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tantan.ssms.mapper.TCutPayMapper">
+	<!--开启二级缓存-->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+	<resultMap id="BaseResultMap" type="org.tantan.ssms.entity.TCutPay">
+		<id column="Sta_Id" property="staId" />
+		<result column="Cut_Absence" property="cutAbsence" />
+		<result column="Cut_Insurance" property="cutInsurance" />
+		<result column="Cut_Revenue" property="cutRevenue" />
+		<result column="Cut_Total" property="cutTotal" />
+		<result column="Cut_Time" property="cutTime" />
+	</resultMap>
+
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+        Sta_Id AS staId, Cut_Absence AS cutAbsence, Cut_Insurance AS cutInsurance, Cut_Revenue AS cutRevenue, Cut_Total AS cutTotal, Cut_Time AS cutTime
+    </sql>
+</mapper>
