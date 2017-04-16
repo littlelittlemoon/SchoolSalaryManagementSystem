@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ssms.test.mapper.TPrizeMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="org.ssms.test.entity.TPrize">
+		<id column="Sta_Id" property="Sta_Id" />
+		<result column="Pr_Long_Pay" property="Pr_Long_Pay" />
+		<result column="Pr_Welfare" property="Pr_Welfare" />
+		<result column="Pr_Full_Bonus" property="Pr_Full_Bonus" />
+		<result column="Pr_Time" property="Pr_Time" />
+		<result column="Pr_State" property="Pr_State" />
+	</resultMap>
+
+</mapper>

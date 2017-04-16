@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.tantan</groupId>
+    <groupId>org.ssms</groupId>
     <artifactId>SchoolSalaryManagementSystem</artifactId>
     <version>1.0</version>
 
@@ -18,6 +18,7 @@
         <mybatis-starter-version>1.2.0</mybatis-starter-version>
         <fastjson.version>1.2.24</fastjson.version>
         <mysql.connector.version>5.1.38</mysql.connector.version>
+        <velocity.version>1.7</velocity.version>
     </properties>
 
     <dependencies>
@@ -66,6 +67,12 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>${velocity.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -93,7 +100,7 @@
                     <!--&lt;!&ndash; 数据源配置，( **必配** ) &ndash;&gt;-->
                     <!--<dataSource>-->
                         <!--<driverName>com.mysql.jdbc.Driver</driverName>-->
-                        <!--<url>jdbc:mysql://127.0.0.1:3307/ssms?characterEncoding=utf8</url>-->
+                        <!--<url>jdbc:mysql://60.205.203.19:3306/ssms?characterEncoding=utf8</url>-->
                         <!--<username>root</username>-->
                         <!--<password>root</password>-->
                     <!--</dataSource>-->
