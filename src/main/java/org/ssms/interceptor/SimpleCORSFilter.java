@@ -1,4 +1,4 @@
-package org.gp.core.interceptors;
+package org.ssms.interceptor;
 
 import org.springframework.stereotype.Component;
 
@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by luoliang on 2017/2/6.
  * 跨域请求过滤器
  */
 @Component
