@@ -1,10 +1,22 @@
 package org.ssms.web.result;
 
-/**
- * Created by Intellij IDEA
- * USER: luoliang
- * DATE: 2017/4/16
- * TIME: 下午4:05
- */
-public class BaseResponse {
+import lombok.Data;
+
+@Data
+public class BaseResponse<T> {
+    /**
+     * 返回结果码
+     */
+    private String code;
+
+    /**
+     * 返回信息
+     */
+    private String message;
+
+    private T data;
+
+    public BaseResponse() {
+        this.code = "0";
+    }
 }

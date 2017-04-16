@@ -1,6 +1,7 @@
 package org.ssms.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 
@@ -21,6 +22,7 @@ public class TDuty extends Model<TDuty> {
     /**
      * 职务编号
      */
+	@TableId
 	private String Du_Id;
     /**
      * 职务名称

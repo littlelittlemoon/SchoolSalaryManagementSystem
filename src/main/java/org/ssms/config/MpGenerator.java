@@ -61,7 +61,7 @@ public class MpGenerator {
 
         PackageConfig pc = new PackageConfig();
         pc.setParent("org.ssms");
-        pc.setModuleName("test");
+//        pc.setModuleName("test");
         mpg.setPackageInfo(pc);
 
 

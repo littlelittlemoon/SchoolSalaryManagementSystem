@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.ssms.test.mapper.TToBankMapper">
+<mapper namespace="org.ssms.mapper.TToBankMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="org.ssms.test.entity.TToBank">
+	<resultMap id="BaseResultMap" type="org.ssms.entity.TToBank">
 		<id column="Sta_Id" property="Sta_Id" />
 		<result column="Sta_Name" property="Sta_Name" />
 		<result column="Sta_Identity_Num" property="Sta_Identity_Num" />

@@ -1,6 +1,7 @@
 package org.ssms.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 
@@ -21,6 +22,7 @@ public class TRole extends Model<TRole> {
     /**
      * 角色编号
      */
+	@TableId
 	private String R_Id;
     /**
      * 角色名称

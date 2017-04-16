@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.ssms.test.mapper.TInsuranceMapper">
+<mapper namespace="org.ssms.mapper.TInsuranceMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="org.ssms.test.entity.TInsurance">
+	<resultMap id="BaseResultMap" type="org.ssms.entity.TInsurance">
 		<id column="Sta_Id" property="Sta_Id" />
 		<result column="Ins_Medical" property="Ins_Medical" />
 		<result column="Ins_Aged" property="Ins_Aged" />

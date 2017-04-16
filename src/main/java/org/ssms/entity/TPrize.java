@@ -2,6 +2,8 @@ package org.ssms.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 
@@ -22,6 +24,7 @@ public class TPrize extends Model<TPrize> {
     /**
      * 员工编号
      */
+	@TableId
 	private String Sta_Id;
     /**
      * 工龄津贴

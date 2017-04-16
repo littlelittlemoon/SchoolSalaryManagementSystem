@@ -5,7 +5,7 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan("com.baomidou.springboot.mapper*")
+@MapperScan("org.ssms.mapper*")
 @SpringBootApplication
 public class Application {
 
