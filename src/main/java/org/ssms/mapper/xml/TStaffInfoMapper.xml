@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.ssms.test.mapper.TStaffInfoMapper">
+<mapper namespace="org.ssms.mapper.VStaffInfoMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="org.ssms.test.entity.TStaffInfo">
-		<id column="Sta_Id" property="Sta_Id" />
-		<result column="Sta_Pass_Word" property="Sta_Pass_Word" />
-		<result column="Sta_Name" property="Sta_Name" />
-		<result column="Sta_Sex" property="Sta_Sex" />
-		<result column="Sta_Identity_Num" property="Sta_Identity_Num" />
-		<result column="Dep_Id" property="Dep_Id" />
-		<result column="Tit_Id" property="Tit_Id" />
-		<result column="Du_Id" property="Du_Id" />
-		<result column="Sta_Entry_Time" property="Sta_Entry_Time" />
-		<result column="Sta_Bank_Acount" property="Sta_Bank_Acount" />
-		<result column="Sta_Tel" property="Sta_Tel" />
-		<result column="R_Id" property="R_Id" />
+	<resultMap id="BaseResultMap" type="org.ssms.entity.VStaffInfo">
+		<result column="员工编号" property="员工编号" />
+		<result column="员工姓名" property="员工姓名" />
+		<result column="性别" property="性别" />
+		<result column="所属部门" property="所属部门" />
+		<result column="手机号码" property="手机号码" />
+		<result column="身份证号" property="身份证号" />
+		<result column="职称" property="职称" />
+		<result column="职务" property="职务" />
+		<result column="银行卡账号" property="银行卡账号" />
+		<result column="入职时间" property="入职时间" />
+		<result column="角色名称" property="角色名称" />
 	</resultMap>
 
 </mapper>
