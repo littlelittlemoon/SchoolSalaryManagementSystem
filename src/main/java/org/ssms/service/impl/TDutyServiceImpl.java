@@ -1,10 +1,11 @@
-package org.ssms.test.service.impl;
+package org.ssms.service.impl;
 
-import org.ssms.test.entity.TDuty;
-import org.ssms.test.mapper.TDutyMapper;
-import org.ssms.test.service.ITDutyService;
+
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.TDuty;
+import org.ssms.mapper.TDutyMapper;
+import org.ssms.service.ITDutyService;
 
 /**
  * <p>

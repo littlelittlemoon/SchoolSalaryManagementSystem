@@ -1,4 +1,4 @@
-package org.tantan.ssms;
+package org.ssms;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.Banner;

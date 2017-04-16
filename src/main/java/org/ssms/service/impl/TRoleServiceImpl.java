@@ -1,10 +1,11 @@
-package org.ssms.test.service.impl;
+package org.ssms.service.impl;
 
-import org.ssms.test.entity.TRole;
-import org.ssms.test.mapper.TRoleMapper;
-import org.ssms.test.service.ITRoleService;
+
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.TRole;
+import org.ssms.mapper.TRoleMapper;
+import org.ssms.service.ITRoleService;
 
 /**
  * <p>

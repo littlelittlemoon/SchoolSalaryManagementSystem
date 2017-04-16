@@ -1,10 +1,10 @@
-package org.ssms.test.service.impl;
+package org.ssms.service.impl;
 
-import org.ssms.test.entity.TAbsentMoney;
-import org.ssms.test.mapper.TAbsentMoneyMapper;
-import org.ssms.test.service.ITAbsentMoneyService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.TAbsentMoney;
+import org.ssms.mapper.TAbsentMoneyMapper;
+import org.ssms.service.ITAbsentMoneyService;
 
 /**
  * <p>

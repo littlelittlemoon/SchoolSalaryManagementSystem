@@ -11,6 +11,6 @@
 	<root level="WARN">
 		<appender-ref ref="Console" />
 	</root>
-	<logger name="com.baomidou" level="DEBUG" />
+	<logger name="org.ssms" level="DEBUG" />
 	<logger name="org.springframework" level="WARN" />
 </configuration>

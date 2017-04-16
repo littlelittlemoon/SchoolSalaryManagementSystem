@@ -1,4 +1,4 @@
-package org.tantan.ssms.config;
+package org.ssms.config;
 
 import javax.sql.DataSource;
 

@@ -1,10 +1,11 @@
-package org.ssms.test.service.impl;
+package org.ssms.service.impl;
 
-import org.ssms.test.entity.TTax;
-import org.ssms.test.mapper.TTaxMapper;
-import org.ssms.test.service.ITTaxService;
+
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.TTax;
+import org.ssms.mapper.TTaxMapper;
+import org.ssms.service.ITTaxService;
 
 /**
  * <p>

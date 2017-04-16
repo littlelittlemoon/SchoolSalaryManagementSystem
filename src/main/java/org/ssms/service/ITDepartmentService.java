@@ -1,7 +1,8 @@
-package org.ssms.test.service;
+package org.ssms.service;
 
-import org.ssms.test.entity.TDepartment;
+
 import com.baomidou.mybatisplus.service.IService;
+import org.ssms.entity.TDepartment;
 
 /**
  * <p>

@@ -1,10 +1,11 @@
-package org.ssms.test.service.impl;
+package org.ssms.service.impl;
 
-import org.ssms.test.entity.TPrize;
-import org.ssms.test.mapper.TPrizeMapper;
-import org.ssms.test.service.ITPrizeService;
+
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.TPrize;
+import org.ssms.mapper.TPrizeMapper;
+import org.ssms.service.ITPrizeService;
 
 /**
  * <p>

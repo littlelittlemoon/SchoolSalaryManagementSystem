@@ -1,4 +1,4 @@
-package org.ssms.test.entity;
+package org.ssms.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
 import java.util.Date;

@@ -1,10 +1,11 @@
-package org.ssms.test.service.impl;
+package org.ssms.service.impl;
 
-import org.ssms.test.entity.TToBank;
-import org.ssms.test.mapper.TToBankMapper;
-import org.ssms.test.service.ITToBankService;
+
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.TToBank;
+import org.ssms.mapper.TToBankMapper;
+import org.ssms.service.ITToBankService;
 
 /**
  * <p>

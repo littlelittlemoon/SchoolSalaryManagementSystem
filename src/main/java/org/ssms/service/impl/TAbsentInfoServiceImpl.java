@@ -1,10 +1,10 @@
-package org.ssms.test.service.impl;
+package org.ssms.service.impl;
 
-import org.ssms.test.entity.TAbsentInfo;
-import org.ssms.test.mapper.TAbsentInfoMapper;
-import org.ssms.test.service.ITAbsentInfoService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.TAbsentInfo;
+import org.ssms.mapper.TAbsentInfoMapper;
+import org.ssms.service.ITAbsentInfoService;
 
 /**
  * <p>

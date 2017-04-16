@@ -1,7 +1,8 @@
-package org.ssms.test.mapper;
+package org.ssms.mapper;
 
-import org.ssms.test.entity.TDuty;
+
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.ssms.entity.TDuty;
 
 /**
  * <p>

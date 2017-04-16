@@ -1,4 +1,4 @@
-package org.tantan.ssms.test;
+package org.ssms.test;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSONObject;
-import org.tantan.ssms.Application;
+import org.ssms.Application;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.matcher.ResponseAwareMatcher;
 import com.jayway.restassured.response.Response;

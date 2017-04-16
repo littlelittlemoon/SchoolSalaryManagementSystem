@@ -1,10 +1,11 @@
-package org.ssms.test.service.impl;
+package org.ssms.service.impl;
 
-import org.ssms.test.entity.TStaffInfo;
-import org.ssms.test.mapper.TStaffInfoMapper;
-import org.ssms.test.service.ITStaffInfoService;
+
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.TStaffInfo;
+import org.ssms.mapper.TStaffInfoMapper;
+import org.ssms.service.ITStaffInfoService;
 
 /**
  * <p>

@@ -1,10 +1,11 @@
-package org.ssms.test.service.impl;
+package org.ssms.service.impl;
 
-import org.ssms.test.entity.TInsurance;
-import org.ssms.test.mapper.TInsuranceMapper;
-import org.ssms.test.service.ITInsuranceService;
+
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.TInsurance;
+import org.ssms.mapper.TInsuranceMapper;
+import org.ssms.service.ITInsuranceService;
 
 /**
  * <p>
