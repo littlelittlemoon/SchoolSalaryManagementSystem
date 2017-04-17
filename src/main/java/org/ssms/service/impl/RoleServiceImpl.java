@@ -3,6 +3,7 @@ package org.ssms.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.Role;
 import org.ssms.mapper.RoleMapper;
 import org.ssms.service.IRoleService;
 
@@ -15,6 +16,6 @@ import org.ssms.service.IRoleService;
  * @since 2017-04-16
  */
 @Service
-public class IRoleService extends ServiceImpl<RoleMapper, TRole> implements IRoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 	
 }

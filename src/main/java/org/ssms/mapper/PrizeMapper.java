@@ -2,7 +2,7 @@ package org.ssms.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.ssms.entity.TPrize;
+import org.ssms.entity.Prize;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TPrize;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface TPrizeMapper extends BaseMapper<TPrize> {
+public interface PrizeMapper extends BaseMapper<Prize> {
 
 }

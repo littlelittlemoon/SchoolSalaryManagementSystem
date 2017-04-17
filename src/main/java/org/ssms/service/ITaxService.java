@@ -2,7 +2,7 @@ package org.ssms.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import org.ssms.entity.TTax;
+import org.ssms.entity.Tax;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TTax;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface ITTaxService extends IService<TTax> {
+public interface ITaxService extends IService<Tax> {
 	
 }

@@ -2,7 +2,7 @@ package org.ssms.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.ssms.entity.TAbsentMoney;
+import org.ssms.entity.AbsentMoney;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TAbsentMoney;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface TAbsentMoneyMapper extends BaseMapper<TAbsentMoney> {
+public interface AbsentMoneyMapper extends BaseMapper<AbsentMoney> {
 
 }

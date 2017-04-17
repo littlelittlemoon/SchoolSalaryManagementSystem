@@ -3,6 +3,7 @@ package org.ssms.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.ToBank;
 import org.ssms.mapper.ToBankMapper;
 import org.ssms.service.IToBankService;
 
@@ -15,6 +16,6 @@ import org.ssms.service.IToBankService;
  * @since 2017-04-16
  */
 @Service
-public class IToBankService extends ServiceImpl<ToBankMapper, TToBank> implements IToBankService {
+public class ToBankServiceImpl extends ServiceImpl<ToBankMapper, ToBank> implements IToBankService {
 	
 }

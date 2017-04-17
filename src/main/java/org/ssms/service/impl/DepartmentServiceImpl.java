@@ -3,6 +3,7 @@ package org.ssms.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.Department;
 import org.ssms.mapper.DepartmentMapper;
 import org.ssms.service.IDepartmentService;
 
@@ -15,6 +16,6 @@ import org.ssms.service.IDepartmentService;
  * @since 2017-04-16
  */
 @Service
-public class IDepartmentService extends ServiceImpl<DepartmentMapper, TDepartment> implements IDepartmentService {
+public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Department> implements IDepartmentService {
 	
 }

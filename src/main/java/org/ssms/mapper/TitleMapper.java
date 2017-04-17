@@ -2,7 +2,7 @@ package org.ssms.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.ssms.entity.TTitle;
+import org.ssms.entity.Title;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TTitle;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface TTitleMapper extends BaseMapper<TTitle> {
+public interface TitleMapper extends BaseMapper<Title> {
 
 }

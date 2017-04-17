@@ -2,7 +2,7 @@ package org.ssms.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import org.ssms.entity.TDepartment;
+import org.ssms.entity.Department;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TDepartment;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface ITDepartmentService extends IService<TDepartment> {
+public interface IDepartmentService extends IService<Department> {
 	
 }

@@ -2,7 +2,7 @@ package org.ssms.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import org.ssms.entity.TTitle;
+import org.ssms.entity.Title;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TTitle;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface ITTitleService extends IService<TTitle> {
+public interface ITitleService extends IService<Title> {
 	
 }

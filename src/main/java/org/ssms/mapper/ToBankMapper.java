@@ -2,7 +2,7 @@ package org.ssms.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.ssms.entity.TToBank;
+import org.ssms.entity.ToBank;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TToBank;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface TToBankMapper extends BaseMapper<TToBank> {
+public interface ToBankMapper extends BaseMapper<ToBank> {
 
 }

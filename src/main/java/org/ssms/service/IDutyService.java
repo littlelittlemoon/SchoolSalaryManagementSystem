@@ -2,7 +2,7 @@ package org.ssms.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import org.ssms.entity.TDuty;
+import org.ssms.entity.Duty;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TDuty;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface ITDutyService extends IService<TDuty> {
+public interface IDutyService extends IService<Duty> {
 	
 }

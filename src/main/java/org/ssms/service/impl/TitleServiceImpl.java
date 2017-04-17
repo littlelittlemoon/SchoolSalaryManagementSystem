@@ -3,6 +3,7 @@ package org.ssms.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.Title;
 import org.ssms.mapper.TitleMapper;
 import org.ssms.service.ITitleService;
 
@@ -15,6 +16,6 @@ import org.ssms.service.ITitleService;
  * @since 2017-04-16
  */
 @Service
-public class ITitleService extends ServiceImpl<TitleMapper, TTitle> implements ITitleService {
+public class TitleServiceImpl extends ServiceImpl<TitleMapper, Title> implements ITitleService {
 	
 }

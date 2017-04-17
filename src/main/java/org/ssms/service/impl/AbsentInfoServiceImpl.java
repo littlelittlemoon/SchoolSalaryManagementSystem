@@ -2,6 +2,7 @@ package org.ssms.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.AbsentInfo;
 import org.ssms.mapper.AbsentInfoMapper;
 import org.ssms.service.IAbsentInfoService;
 
@@ -14,6 +15,6 @@ import org.ssms.service.IAbsentInfoService;
  * @since 2017-04-16
  */
 @Service
-public class IAbsentInfoService extends ServiceImpl<AbsentInfoMapper, TAbsentInfo> implements IAbsentInfoService {
+public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentInfo> implements IAbsentInfoService {
 	
 }

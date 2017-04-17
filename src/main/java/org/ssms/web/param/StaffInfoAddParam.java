@@ -1,10 +1,24 @@
 package org.ssms.web.param;
 
-/**
- * Created by Intellij IDEA
- * USER: luoliang
- * DATE: 2017/4/17
- * TIME: 下午9:54
- */
+import lombok.Data;
+
+@Data
 public class StaffInfoAddParam {
+    private String staffName;
+
+    private String staffSex;
+
+    private String departmentId;
+
+    private String titleId;
+
+    private String dutyId;
+
+    private String staffEntryTime;
+
+    private String staffIdentityNum;
+
+    private String staffBankAcount;
+
+    private String staffTel;
 }

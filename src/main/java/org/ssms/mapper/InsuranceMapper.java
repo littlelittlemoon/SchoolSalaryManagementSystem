@@ -2,7 +2,7 @@ package org.ssms.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.ssms.entity.TInsurance;
+import org.ssms.entity.Insurance;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TInsurance;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface TInsuranceMapper extends BaseMapper<TInsurance> {
+public interface InsuranceMapper extends BaseMapper<Insurance> {
 
 }

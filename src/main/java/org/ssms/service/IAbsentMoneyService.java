@@ -2,7 +2,7 @@ package org.ssms.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import org.ssms.entity.TAbsentMoney;
+import org.ssms.entity.AbsentMoney;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TAbsentMoney;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface ITAbsentMoneyService extends IService<TAbsentMoney> {
+public interface IAbsentMoneyService extends IService<AbsentMoney> {
 	
 }

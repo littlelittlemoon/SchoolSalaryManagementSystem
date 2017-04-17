@@ -2,7 +2,7 @@ package org.ssms.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import org.ssms.entity.TRole;
+import org.ssms.entity.Role;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TRole;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface ITRoleService extends IService<TRole> {
+public interface IRoleService extends IService<Role> {
 	
 }

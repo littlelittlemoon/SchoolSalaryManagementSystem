@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/test/tAbsentInfo")
-public class TAbsentInfoController {
+public class AbsentInfoController {
 	
 }

@@ -2,7 +2,7 @@ package org.ssms.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.ssms.entity.TRole;
+import org.ssms.entity.Role;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TRole;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface TRoleMapper extends BaseMapper<TRole> {
+public interface RoleMapper extends BaseMapper<Role> {
 
 }

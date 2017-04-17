@@ -2,6 +2,7 @@ package org.ssms.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.AbsentMoney;
 import org.ssms.mapper.AbsentMoneyMapper;
 import org.ssms.service.IAbsentMoneyService;
 
@@ -14,6 +15,6 @@ import org.ssms.service.IAbsentMoneyService;
  * @since 2017-04-16
  */
 @Service
-public class IAbsentMoneyService extends ServiceImpl<AbsentMoneyMapper, TAbsentMoney> implements IAbsentMoneyService {
+public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, AbsentMoney> implements IAbsentMoneyService {
 	
 }

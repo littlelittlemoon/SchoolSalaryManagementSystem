@@ -2,7 +2,7 @@ package org.ssms.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.ssms.entity.TAbsentInfo;
+import org.ssms.entity.AbsentInfo;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TAbsentInfo;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface TAbsentInfoMapper extends BaseMapper<TAbsentInfo> {
+public interface AbsentInfoMapper extends BaseMapper<AbsentInfo> {
 
 }

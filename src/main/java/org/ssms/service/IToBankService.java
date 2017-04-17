@@ -2,7 +2,7 @@ package org.ssms.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import org.ssms.entity.TToBank;
+import org.ssms.entity.ToBank;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TToBank;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface ITToBankService extends IService<TToBank> {
+public interface IToBankService extends IService<ToBank> {
 	
 }

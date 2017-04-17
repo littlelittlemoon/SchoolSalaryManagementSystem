@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/test/tRole")
-public class TRoleController {
+public class RoleController {
 	
 }

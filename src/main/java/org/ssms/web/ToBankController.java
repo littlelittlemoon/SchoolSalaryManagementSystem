@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/test/tToBank")
-public class TToBankController {
+public class ToBankController {
 	
 }

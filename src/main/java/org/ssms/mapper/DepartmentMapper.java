@@ -2,7 +2,7 @@ package org.ssms.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.ssms.entity.TDepartment;
+import org.ssms.entity.Department;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TDepartment;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface TDepartmentMapper extends BaseMapper<TDepartment> {
+public interface DepartmentMapper extends BaseMapper<Department> {
 
 }

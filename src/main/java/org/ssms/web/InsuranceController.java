@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/test/tInsurance")
-public class TInsuranceController {
+public class InsuranceController {
 	
 }

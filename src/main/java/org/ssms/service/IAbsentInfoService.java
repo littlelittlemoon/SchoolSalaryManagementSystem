@@ -2,7 +2,7 @@ package org.ssms.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import org.ssms.entity.TAbsentInfo;
+import org.ssms.entity.AbsentInfo;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TAbsentInfo;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface ITAbsentInfoService extends IService<TAbsentInfo> {
+public interface IAbsentInfoService extends IService<AbsentInfo> {
 	
 }

@@ -2,7 +2,7 @@ package org.ssms.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.ssms.entity.TDuty;
+import org.ssms.entity.Duty;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TDuty;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface TDutyMapper extends BaseMapper<TDuty> {
+public interface DutyMapper extends BaseMapper<Duty> {
 
 }

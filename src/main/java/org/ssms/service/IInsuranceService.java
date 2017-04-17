@@ -2,7 +2,7 @@ package org.ssms.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import org.ssms.entity.TInsurance;
+import org.ssms.entity.Insurance;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import org.ssms.entity.TInsurance;
  * @author TanKaiYue
  * @since 2017-04-16
  */
-public interface ITInsuranceService extends IService<TInsurance> {
+public interface IInsuranceService extends IService<Insurance> {
 	
 }

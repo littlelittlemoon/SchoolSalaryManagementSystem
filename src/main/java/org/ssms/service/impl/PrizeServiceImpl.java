@@ -3,6 +3,7 @@ package org.ssms.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.ssms.entity.Prize;
 import org.ssms.mapper.PrizeMapper;
 import org.ssms.service.IPrizeService;
 
@@ -15,6 +16,6 @@ import org.ssms.service.IPrizeService;
  * @since 2017-04-16
  */
 @Service
-public class IPrizeService extends ServiceImpl<PrizeMapper, TPrize> implements IPrizeService {
+public class PrizeServiceImpl extends ServiceImpl<PrizeMapper, Prize> implements IPrizeService {
 	
 }
