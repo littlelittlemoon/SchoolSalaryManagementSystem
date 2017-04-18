@@ -37,14 +37,13 @@ public class StaffInfoController {
     @RequestMapping(value = "addStaff", method = RequestMethod.POST)
     public String addStaff(StaffInfoAddParam param) {
         BaseResponse response = staffInfoService.addStaff(param);
-
         return JSON.toJSONString(response);
     }
 
-    @RequestMapping(value = "staffList",method = RequestMethod.GET)
-    public String staffList(StaffQueryParam param){
-        BaseResponse<List<StaffInfoView>> response = new BaseResponse<>();
+    @RequestMapping(value = "staffList", method = RequestMethod.GET)
+    public String staffList(StaffQueryParam param) {
+        BaseResponse<List<StaffInfoView>> response = staffInfoService.staffList(param);
 
-        return  JSON.toJSONString(response);
+        return JSON.toJSONString(response);
     }
 }

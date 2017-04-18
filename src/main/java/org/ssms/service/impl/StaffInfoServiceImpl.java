@@ -17,6 +17,7 @@ import org.ssms.web.result.BaseResponse;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -64,6 +65,7 @@ public class StaffInfoServiceImpl extends ServiceImpl<StaffInfoMapper, StaffInfo
 
         StaffInfo staffInfo = new StaffInfo();
         BeanUtils.copyProperties(param, staffInfo);
+        staffInfo.setStaffId(UUID.randomUUID().toString());
 
         try {
             insert(staffInfo);

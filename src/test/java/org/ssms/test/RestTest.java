@@ -33,7 +33,8 @@ public class RestTest {
     public void postTest(){
         StaffQueryParam param = new StaffQueryParam();
         param.setCurrentPage(1);
-        param.setPageSize(1);
+        param.setPageSize(3);
+        param.setStaffInfoSearch("11111");
         BaseResponse response = staffInfoService.staffList(param);
 
         log.info("result：{}", JSON.toJSONString(response));

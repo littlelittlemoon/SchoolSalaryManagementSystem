@@ -4,11 +4,12 @@ import lombok.Data;
 
 @Data
 public class StaffQueryParam {
-    private String staffId;
-
-    private String staffName;
-
-    private String departmentName;
+//    private String staffId;
+//
+//    private String staffName;
+//
+//    private String departmentName;
+    private String staffInfoSearch;
 
     private Integer currentPage;
 
