@@ -8,6 +8,7 @@ import org.ssms.web.param.StaffInfoAddParam;
 import org.ssms.web.param.StaffQueryParam;
 import org.ssms.web.result.BaseResponse;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
 public interface IStaffInfoService extends IService<StaffInfo> {
     BaseResponse verifyUser(String username, String password);
 
-    BaseResponse addStaff(StaffInfoAddParam param);
+    BaseResponse addStaff(StaffInfoAddParam param) throws ParseException;
 
     BaseResponse<List<StaffInfoView>> staffList(StaffQueryParam param);
 }

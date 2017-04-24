@@ -1,6 +1,7 @@
 package org.ssms.web;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import org.ssms.web.param.StaffQueryParam;
 import org.ssms.web.result.BaseResponse;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -35,8 +37,9 @@ public class StaffInfoController {
     }
 
     @RequestMapping(value = "addStaff", method = RequestMethod.POST)
-    public String addStaff(StaffInfoAddParam param) {
+    public String addStaff(StaffInfoAddParam param) throws ParseException {
         BaseResponse response = staffInfoService.addStaff(param);
+
         return JSON.toJSONString(response);
     }
 
@@ -44,6 +47,6 @@ public class StaffInfoController {
     public String staffList(StaffQueryParam param) {
         BaseResponse<List<StaffInfoView>> response = staffInfoService.staffList(param);
 
-        return JSON.toJSONString(response);
+        return JSON.toJSONStringWithDateFormat(response, "yyyy-MM-dd");
     }
 }

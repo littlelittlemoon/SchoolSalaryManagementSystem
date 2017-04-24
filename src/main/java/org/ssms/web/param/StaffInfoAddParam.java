@@ -21,4 +21,6 @@ public class StaffInfoAddParam {
     private String staffBankAcount;
 
     private String staffTel;
+
+    private String roleId;
 }

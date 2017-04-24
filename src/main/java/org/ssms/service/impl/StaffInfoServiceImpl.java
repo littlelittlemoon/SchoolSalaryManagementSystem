@@ -5,19 +5,21 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.ssms.entity.StaffInfo;
 import org.ssms.entity.viewentity.StaffInfoView;
 import org.ssms.mapper.StaffInfoMapper;
 import org.ssms.service.IStaffInfoService;
+import org.ssms.utils.UUIDGenerator;
 import org.ssms.web.param.StaffInfoAddParam;
 import org.ssms.web.param.StaffQueryParam;
 import org.ssms.web.result.BaseResponse;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * <p>
@@ -60,12 +62,13 @@ public class StaffInfoServiceImpl extends ServiceImpl<StaffInfoMapper, StaffInfo
     }
 
     @Override
-    public BaseResponse addStaff(StaffInfoAddParam param) {
+    public BaseResponse addStaff(StaffInfoAddParam param) throws ParseException {
         BaseResponse response = new BaseResponse();
 
         StaffInfo staffInfo = new StaffInfo();
         BeanUtils.copyProperties(param, staffInfo);
-        staffInfo.setStaffId(UUID.randomUUID().toString());
+        staffInfo.setStaffId(UUIDGenerator.generatorId());
+        staffInfo.setStaffEntryTime(DateUtils.parseDate(param.getStaffEntryTime(),new String[]{"yyyy-MM-dd"}));
 
         try {
             insert(staffInfo);
@@ -73,6 +76,7 @@ public class StaffInfoServiceImpl extends ServiceImpl<StaffInfoMapper, StaffInfo
         } catch (Exception e) {
             response.setMessage("添加员工失败");
             response.setCode("1");
+            log.error("添加员工失败：", e);
         }
 
         return response;
