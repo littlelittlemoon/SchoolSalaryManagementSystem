@@ -76,7 +76,7 @@ public class StaffInfoServiceImpl extends ServiceImpl<StaffInfoMapper, StaffInfo
         } catch (Exception e) {
             response.setMessage("添加员工失败");
             response.setCode("1");
-            log.error("添加员工失败：", e);
+            log.error("添加员工失败：{}", e);
         }
 
         return response;
@@ -96,7 +96,7 @@ public class StaffInfoServiceImpl extends ServiceImpl<StaffInfoMapper, StaffInfo
         } catch (Exception e) {
             response.setCode("1");
             response.setMessage("查询出错");
-            log.error("查询出错：", e);
+            log.error("查询出错：{}", e);
         }
 
         return response;

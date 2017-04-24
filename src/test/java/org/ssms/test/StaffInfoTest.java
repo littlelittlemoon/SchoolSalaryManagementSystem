@@ -36,7 +36,7 @@ public class StaffInfoTest extends BaseTest {
         param.setDepartmentId("Dep_atmosDep");
         param.setDutyId("Du_depHead");
         param.setTitleId("Tit_assistant");
-        param.setStaffIdentityNum("2324234");
+        param.setStaffIdentityNum("45667833");
         param.setStaffBankAcount("2342342342");
         param.setStaffName("staff");
         param.setStaffSex("男");
