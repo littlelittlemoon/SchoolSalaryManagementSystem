@@ -9,6 +9,7 @@
 		<result column="actual_days" property="actualDays" />
 		<result column="money" property="money" />
 		<result column="check_time" property="checkTime" />
+		<result column="absent_money_state" property="absentMoneyState" />
 	</resultMap>
 
 </mapper>

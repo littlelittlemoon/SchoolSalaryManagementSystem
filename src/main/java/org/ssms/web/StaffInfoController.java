@@ -1,7 +1,6 @@
 package org.ssms.web;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,8 +11,11 @@ import org.ssms.web.param.StaffQueryParam;
 import org.ssms.web.result.BaseResponse;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -30,14 +32,22 @@ public class StaffInfoController {
     private IStaffInfoService staffInfoService;
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String login(String username, String password) {
-        BaseResponse response = staffInfoService.verifyUser(username, password);
+    public String login(String username, String password, HttpServletResponse resp) {
+        BaseResponse<String> response = staffInfoService.verifyUser(username, password);
+        if (Objects.equals("0", response.getCode())) {
+            Cookie cookie = new Cookie("staffId", response.getData());
+            cookie.setMaxAge(30 * 60);
+            cookie.setPath("/");
+            cookie.setDomain("localhost");
+
+            //resp.addCookie(cookie);
+        }
 
         return JSON.toJSONString(response);
     }
 
     @RequestMapping(value = "addStaff", method = RequestMethod.POST)
-    public String addStaff(StaffInfoAddParam param) throws ParseException {
+    public String addStaff(StaffInfoAddParam param) {
         BaseResponse response = staffInfoService.addStaff(param);
 
         return JSON.toJSONString(response);

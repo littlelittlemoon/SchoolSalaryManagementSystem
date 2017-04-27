@@ -18,32 +18,37 @@ import java.io.Serializable;
 @TableName("t_absent_money")
 public class AbsentMoney extends Model<AbsentMoney> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 员工编号
-     */
-    @TableId("staff_id")
+	/**
+	 * 员工编号
+	 */
+	@TableId("staff_id")
 	private String staffId;
-    /**
-     * 应到天数
-     */
+	/**
+	 * 应到天数
+	 */
 	@TableField("due_days")
 	private Integer dueDays;
-    /**
-     * 实到天数
-     */
+	/**
+	 * 实到天数
+	 */
 	@TableField("actual_days")
 	private Integer actualDays;
-    /**
-     * 缺勤金
-     */
+	/**
+	 * 缺勤金
+	 */
 	private Float money;
-    /**
-     * 考核年月
-     */
+	/**
+	 * 考核年月
+	 */
 	@TableField("check_time")
 	private Date checkTime;
+	/**
+	 * 审核状态
+	 */
+	@TableField("absent_money_state")
+	private String absentMoneyState;
 
 
 	public String getStaffId() {
@@ -84,6 +89,14 @@ public class AbsentMoney extends Model<AbsentMoney> {
 
 	public void setCheckTime(Date checkTime) {
 		this.checkTime = checkTime;
+	}
+
+	public String getAbsentMoneyState() {
+		return absentMoneyState;
+	}
+
+	public void setAbsentMoneyState(String absentMoneyState) {
+		this.absentMoneyState = absentMoneyState;
 	}
 
 	@Override

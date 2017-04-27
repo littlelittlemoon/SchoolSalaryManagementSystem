@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,7 @@ import java.io.Serializable;
  * @since 2017-04-17
  */
 @TableName("t_absent_info")
+@Data
 public class AbsentInfo extends Model<AbsentInfo> {
 
     private static final long serialVersionUID = 1L;
@@ -34,17 +37,17 @@ public class AbsentInfo extends Model<AbsentInfo> {
      * 开始时间
      */
 	@TableField("absent_start_time")
-	private Date absentStartTime;
+	private String absentStartTime;
     /**
      * 结束时间
      */
 	@TableField("absent_end_time")
-	private Date absentEndTime;
+	private String absentEndTime;
     /**
      * 请假天数
      */
 	@TableField("absent_days")
-	private Date absentDays;
+	private Integer absentDays;
     /**
      * 审核状态
      */
@@ -52,53 +55,6 @@ public class AbsentInfo extends Model<AbsentInfo> {
 	private String absentState;
 
 
-	public String getStaffId() {
-		return staffId;
-	}
-
-	public void setStaffId(String staffId) {
-		this.staffId = staffId;
-	}
-
-	public String getAbsentReason() {
-		return absentReason;
-	}
-
-	public void setAbsentReason(String absentReason) {
-		this.absentReason = absentReason;
-	}
-
-	public Date getAbsentStartTime() {
-		return absentStartTime;
-	}
-
-	public void setAbsentStartTime(Date absentStartTime) {
-		this.absentStartTime = absentStartTime;
-	}
-
-	public Date getAbsentEndTime() {
-		return absentEndTime;
-	}
-
-	public void setAbsentEndTime(Date absentEndTime) {
-		this.absentEndTime = absentEndTime;
-	}
-
-	public Date getAbsentDays() {
-		return absentDays;
-	}
-
-	public void setAbsentDays(Date absentDays) {
-		this.absentDays = absentDays;
-	}
-
-	public String getAbsentState() {
-		return absentState;
-	}
-
-	public void setAbsentState(String absentState) {
-		this.absentState = absentState;
-	}
 
 	@Override
 	protected Serializable pkVal() {

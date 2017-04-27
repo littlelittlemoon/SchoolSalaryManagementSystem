@@ -20,9 +20,9 @@ import java.util.List;
  * @since 2017-04-16
  */
 public interface IStaffInfoService extends IService<StaffInfo> {
-    BaseResponse verifyUser(String username, String password);
+    BaseResponse<String> verifyUser(String username, String password);
 
-    BaseResponse addStaff(StaffInfoAddParam param) throws ParseException;
+    BaseResponse addStaff(StaffInfoAddParam param);
 
     BaseResponse<List<StaffInfoView>> staffList(StaffQueryParam param);
 }

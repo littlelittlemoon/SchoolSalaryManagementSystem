@@ -36,8 +36,8 @@ public class StaffInfoServiceImpl extends ServiceImpl<StaffInfoMapper, StaffInfo
     private StaffInfoMapper staffInfoMapper;
 
     @Override
-    public BaseResponse verifyUser(String username, String password) {
-        BaseResponse response = new BaseResponse();
+    public BaseResponse<String> verifyUser(String username, String password) {
+        BaseResponse<String> response = new BaseResponse();
 
         EntityWrapper<StaffInfo> ew = new EntityWrapper<>();
         ew.where("staff_tel={0}", username);
@@ -57,18 +57,23 @@ public class StaffInfoServiceImpl extends ServiceImpl<StaffInfoMapper, StaffInfo
             return response;
         }
         response.setMessage("登录成功");
+        response.setData(staffInfo.getStaffId());
 
         return response;
     }
 
     @Override
-    public BaseResponse addStaff(StaffInfoAddParam param) throws ParseException {
+    public BaseResponse addStaff(StaffInfoAddParam param) {
         BaseResponse response = new BaseResponse();
 
         StaffInfo staffInfo = new StaffInfo();
         BeanUtils.copyProperties(param, staffInfo);
         staffInfo.setStaffId(UUIDGenerator.generatorId());
-        staffInfo.setStaffEntryTime(DateUtils.parseDate(param.getStaffEntryTime(),new String[]{"yyyy-MM-dd"}));
+        try {
+            staffInfo.setStaffEntryTime(DateUtils.parseDate(param.getStaffEntryTime(), new String[]{"yyyy-MM-dd"}));
+        } catch (ParseException e) {
+            log.error("转换时间异常：", e);
+        }
 
         try {
             insert(staffInfo);
