@@ -3,10 +3,6 @@ package org.ssms.web.param;
 import lombok.Data;
 
 @Data
-public class StaffQueryParam {
-    private String staffInfoSearch;
+public class StaffQueryParam extends PageParam {
 
-    private Integer currentPage;
-
-    private Integer pageSize;
 }
