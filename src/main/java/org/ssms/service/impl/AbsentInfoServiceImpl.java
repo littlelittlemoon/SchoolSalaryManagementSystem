@@ -18,6 +18,7 @@ import org.ssms.web.result.AbsentInfoCheckResult;
 import org.ssms.web.result.AbsentInfoResult;
 import org.ssms.web.result.BaseResponse;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +34,8 @@ import java.util.Objects;
 @Service
 @Slf4j
 public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentInfo> implements IAbsentInfoService {
+    @Resource
+    private AbsentInfoMapper absentInfoMapper;
 
     @Override
     public BaseResponse addAbsentInfo(ApplyLeaveParam param) {
