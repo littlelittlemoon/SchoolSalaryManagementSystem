@@ -3,10 +3,12 @@ package org.ssms.test;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.ssms.mapper.AbsentInfoMapper;
 import org.ssms.mapper.StaffInfoMapper;
+import org.ssms.service.IAbsentInfoService;
 import org.ssms.service.IStaffInfoService;
+import org.ssms.web.param.AbsentInfoQueryParam;
 import org.ssms.web.param.StaffInfoAddParam;
-import org.ssms.web.param.StaffQueryParam;
 import org.ssms.web.result.BaseResponse;
 
 import javax.annotation.Resource;
@@ -18,14 +20,18 @@ public class StaffInfoTest extends BaseTest {
     private StaffInfoMapper staffInfoMapper;
     @Resource
     private IStaffInfoService staffInfoService;
+    @Resource
+    private IAbsentInfoService absentInfoService;
+    @Resource
+    private AbsentInfoMapper absentInfoMapper;
 
     @Test
     public void testList() {
-        StaffQueryParam param = new StaffQueryParam();
+        AbsentInfoQueryParam param = new AbsentInfoQueryParam();
+        param.setStaffId("11111");
         param.setCurrentPage(1);
-        param.setPageSize(3);
-        param.setStaffInfoSearch("11111");
-        BaseResponse response = staffInfoService.staffList(param);
+        param.setPageSize(10);
+        BaseResponse response = absentInfoService.staffAbsentInfoList(param);
 
         log.info("result：{}", JSON.toJSONString(response));
     }

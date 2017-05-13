@@ -21,24 +21,93 @@
         <result column="absent_reason" property="absentReason"/>
         <result column="absent_start_time" property="absentStartTime"/>
         <result column="absent_end_time" property="absentEndTime"/>
+        <result column="absent_check_time" property="absentCheckTime"/>
         <result column="absent_days" property="absentDays"/>
     </resultMap>
 
     <select id="getAbsentInfoCheck" resultMap="CheckResultMap">
+        SELECT
+        a.staff_id,
+        staff_name,
+        absent_apply_time,
+        absent_reason,
+        absent_start_time,
+        absent_end_time,
+        absent_check_time,
+        absent_days
+        FROM
+        t_absent_info a, t_staff_info b
+        WHERE a.staff_id = b.staff_id
+        AND department_id IN (SELECT department_id
+        FROM t_staff_info
+        WHERE staff_id = #{staffId})
+        AND absent_state = #{state}
+        AND date_format(absent_check_time,'%Y-%m')=date_format(now(),'%Y-%m')
+    </select>
+
+    <select id="getStaffAbsentInfoPage" resultType="java.lang.String">
       SELECT
-          a.staff_id,
-          staff_name,
-          absent_apply_time,
-          absent_reason,
-          absent_start_time,
-          absent_end_time,
-          absent_days
+          DISTINCT a.staff_id
         FROM
           t_absent_info a, t_staff_info b
         WHERE a.staff_id = b.staff_id
-          AND department_id IN (SELECT department_id
-                                FROM t_staff_info
-                                WHERE staff_id = #{staffId})
-         AND absent_state = 'std'
+              AND department_id IN (SELECT department_id
+                                    FROM t_staff_info
+                                    WHERE staff_id = #{staffId})
+              AND absent_state = 'd_pass'
+              AND date_format(absent_check_time,'%Y-%m')=date_format(now(),'%Y-%m')
+        <if test="searchCondition!=null">
+            AND (a.staff_id=#{searchCondition} OR staff_name=#{searchCondition})
+        </if>
     </select>
+
+    <select id="getStaffAbsentInfoPageByDep" resultType="java.lang.String">
+        SELECT
+        DISTINCT a.staff_id
+        FROM
+        t_absent_info a, t_staff_info b
+        WHERE a.staff_id = b.staff_id
+                AND department_id = #{departmentId}
+                AND absent_state = 'dtp'
+                AND date_format(absent_check_time,'%Y-%m')=date_format(now(),'%Y-%m')
+        <if test="searchCondition!=null">
+            AND (a.staff_id=#{searchCondition} OR staff_name=#{searchCondition})
+        </if>
+    </select>
+
+    <select id="getAbsentInfoCheckByDep" resultMap="CheckResultMap">
+        SELECT
+        a.staff_id,
+        staff_name,
+        absent_apply_time,
+        absent_reason,
+        absent_start_time,
+        absent_end_time,
+        absent_check_time,
+        absent_days
+        FROM
+        t_absent_info a, t_staff_info b
+        WHERE a.staff_id = b.staff_id
+        AND department_id = #{departmentId}
+        AND absent_state = 'dtp'
+        AND date_format(absent_check_time,'%Y-%m')=date_format(now(),'%Y-%m')
+    </select>
+    
+    <update id="updateStatebatch">
+        UPDATE t_absent_info
+        SET absent_state = 'dtp'
+        WHERE staff_id IN (
+          SELECT staff_id
+          FROM (
+            SELECT a.staff_id staff_id
+            FROM
+              t_absent_info a, t_staff_info b
+            WHERE a.staff_id = b.staff_id
+                  AND department_id IN (SELECT department_id
+                                        FROM t_staff_info
+                                        WHERE staff_id = #{staffId})
+                  AND date_format(absent_check_time, '%Y-%m') =
+                      date_format(now(), '%Y-%m')) a
+        ) AND absent_state = 'd_pass'
+    </update>
 </mapper>

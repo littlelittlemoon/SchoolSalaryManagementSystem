@@ -5,20 +5,22 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.ssms.entity.AbsentInfo;
 import org.ssms.mapper.AbsentInfoMapper;
+import org.ssms.mapper.DepartmentMapper;
 import org.ssms.mapper.result.AbsentInfoCheck;
 import org.ssms.service.IAbsentInfoService;
 import org.ssms.web.param.AbsentInfoQueryParam;
 import org.ssms.web.param.ApplyLeaveParam;
-import org.ssms.web.result.AbsentInfoCheckResult;
-import org.ssms.web.result.AbsentInfoResult;
-import org.ssms.web.result.BaseResponse;
+import org.ssms.web.param.CheckAbsentInfoParam;
+import org.ssms.web.result.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +38,8 @@ import java.util.Objects;
 public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentInfo> implements IAbsentInfoService {
     @Resource
     private AbsentInfoMapper absentInfoMapper;
+    @Resource
+    private DepartmentMapper departmentMapper;
 
     @Override
     public BaseResponse addAbsentInfo(ApplyLeaveParam param) {
@@ -70,18 +74,21 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
         ew.where("staff_id={0}", param.getStaffId());
 
         try {
-            Page<AbsentInfo> absentInfoPage = this.selectPage(page);
+            Page<AbsentInfo> absentInfoPage = this.selectPage(page, ew);
 
             for (int i = 0; i < absentInfoPage.getRecords().size(); i++) {
                 AbsentInfo absentInfo = absentInfoPage.getRecords().get(i);
                 if (Objects.equals(absentInfo.getAbsentState(), "std")) {
-                    absentInfoPage.getRecords().get(i).setAbsentState("待审核");
+                    absentInfoPage.getRecords().get(i).setAbsentState("待部门审核");
                 }
                 if (Objects.equals(absentInfo.getAbsentState(), "d_pass")) {
                     absentInfoPage.getRecords().get(i).setAbsentState("部门通过");
                 }
                 if (Objects.equals(absentInfo.getAbsentState(), "d_reject")) {
                     absentInfoPage.getRecords().get(i).setAbsentState("部门打回");
+                }
+                if (Objects.equals(absentInfo.getAbsentState(), "dtp")) {
+                    absentInfoPage.getRecords().get(i).setAbsentState("待人事处审核");
                 }
             }
 
@@ -112,13 +119,166 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
         page.setSize(param.getPageSize());
 
         try {
-            page.setRecords(baseMapper.getAbsentInfoCheck(page, param.getStaffId()));
+            page.setRecords(baseMapper.getAbsentInfoCheck(page, param.getStaffId(), "std"));
             absentInfoCheckResult.setCurrentPage(page.getCurrent());
             absentInfoCheckResult.setTotal(page.getTotal());
             absentInfoCheckResult.setAbsentInfoChecks(page.getRecords());
 
         } catch (Exception e) {
             log.error("获取管理员待审批考勤记录业务异常：", e);
+            response.setCode("1");
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public BaseResponse updateAbsentInfo(CheckAbsentInfoParam param) {
+        BaseResponse response = new BaseResponse();
+
+        EntityWrapper<AbsentInfo> ew = new EntityWrapper<>();
+        ew.where("staff_id={0}", param.getStaffId());
+        ew.and("absent_start_time={0}", param.getBeginTime());
+
+        try {
+            AbsentInfo absentInfo = absentInfoMapper.selectList(ew).get(0);
+
+            absentInfo.setAbsentState(param.getStatus());
+            absentInfo.setAbsentCheckTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
+            update(absentInfo, ew);
+        } catch (Exception e) {
+            log.error("管理员修改考勤记录异常：", e);
+            response.setCode("1");
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public BaseResponse<StaffAbsentInfoResult> staffAbsentInfoList(AbsentInfoQueryParam param) {
+        BaseResponse<StaffAbsentInfoResult> response = new BaseResponse<>();
+        StaffAbsentInfoResult staffAbsentInfoResult = new StaffAbsentInfoResult();
+        response.setData(staffAbsentInfoResult);
+
+        Page<String> page = new Page();
+        page.setCurrent(param.getCurrentPage());
+        page.setSize(param.getPageSize());
+
+        try {
+            if (StringUtils.isEmpty(param.getSearchCondition())) {
+                param.setSearchCondition(null);
+            }
+            List<String> staffIds = baseMapper.getStaffAbsentInfoPage(page, param.getStaffId(), param.getSearchCondition());//自定义SQL多表查询，获得分页信息
+            page.setRecords(staffIds);
+            staffAbsentInfoResult.setCurrentPage(page.getCurrent());
+            staffAbsentInfoResult.setTotal(page.getTotal());
+
+            page = new Page<>();
+            page.setSize(9999);
+            page.setCurrent(1);
+            List<AbsentInfoCheck> absentInfoChecks = baseMapper.getAbsentInfoCheck(page, param.getStaffId(), "d_pass");
+
+            List<StaffAbsentInfoDetail> staffAbsentInfoDetails = new ArrayList<>();
+            staffAbsentInfoResult.setStaffAbsentInfoDetails(staffAbsentInfoDetails);
+            for (String staffId : staffIds) {
+                StaffAbsentInfoDetail staffAbsentInfoDetail = new StaffAbsentInfoDetail();
+                staffAbsentInfoDetail.setStaffId(staffId);  //实例化员工请假详情对象
+                staffAbsentInfoDetails.add(staffAbsentInfoDetail);
+                staffAbsentInfoDetail.setAbsences(new ArrayList<Absence>(5));
+                staffAbsentInfoDetail.setAbsentDays(0);
+
+                for (AbsentInfoCheck absentInfoCheck : absentInfoChecks) {
+                    if (absentInfoCheck.getStaffId().equals(staffId)) {
+                        staffAbsentInfoDetail.setStaffName(absentInfoCheck.getStaffName());
+                        staffAbsentInfoDetail.setAbsentCheckTime(DateFormatUtils.format(new Date(), "yyyy-MM"));
+                        staffAbsentInfoDetail.setAbsentDays(staffAbsentInfoDetail.getAbsentDays() + absentInfoCheck.getAbsentDays());
+                        Absence absence = new Absence();
+                        staffAbsentInfoDetail.getAbsences().add(absence);
+                        absence.setAbsentDays(absentInfoCheck.getAbsentDays());
+                        absence.setAbsentEndTime(absentInfoCheck.getAbsentEndTime());
+                        absence.setAbsentStartTime(absentInfoCheck.getAbsentStartTime());
+                        absence.setAbsentReason(absentInfoCheck.getAbsentReason());
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("获取管理员待审批考勤记录业务异常：", e);
+            response.setCode("1");
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public BaseResponse sendAbsentInfoToHr(String staffId) {
+        BaseResponse response = new BaseResponse();
+
+        try {
+            baseMapper.updateStatebatch(staffId);
+        } catch (Exception e) {
+            log.error("发送到人事处业务异常：", e);
+            response.setCode("1");
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public BaseResponse<StaffAbsentInfoResult> hrCheckAbsentInfo(AbsentInfoQueryParam param) {
+        BaseResponse<StaffAbsentInfoResult> response = new BaseResponse<>();
+        StaffAbsentInfoResult staffAbsentInfoResult = new StaffAbsentInfoResult();
+        response.setData(staffAbsentInfoResult);
+
+        Page<String> page = new Page();
+        page.setCurrent(param.getCurrentPage());
+        page.setSize(param.getPageSize());
+
+        try {
+            if (StringUtils.isEmpty(param.getSearchCondition())) {
+                param.setSearchCondition(null);
+            }
+            List<String> staffIds = baseMapper.getStaffAbsentInfoPageByDep(page, param.getDepartmentId(), param.getSearchCondition());//自定义SQL多表查询，获得分页信息
+            page.setRecords(staffIds);
+            staffAbsentInfoResult.setCurrentPage(page.getCurrent());
+            staffAbsentInfoResult.setTotal(page.getTotal());
+
+            page = new Page<>();
+            page.setSize(9999);
+            page.setCurrent(1);
+            List<AbsentInfoCheck> absentInfoChecks = baseMapper.getAbsentInfoCheckByDep(page, param.getDepartmentId());
+
+            List<StaffAbsentInfoDetail> staffAbsentInfoDetails = new ArrayList<>();
+            staffAbsentInfoResult.setStaffAbsentInfoDetails(staffAbsentInfoDetails);
+            for (String staffId : staffIds) {
+                StaffAbsentInfoDetail staffAbsentInfoDetail = new StaffAbsentInfoDetail();
+                staffAbsentInfoDetail.setStaffId(staffId);  //实例化员工请假详情对象
+                staffAbsentInfoDetails.add(staffAbsentInfoDetail);
+                staffAbsentInfoDetail.setAbsences(new ArrayList<Absence>(5));
+                staffAbsentInfoDetail.setAbsentDays(0);
+                staffAbsentInfoDetail.setDepartment(departmentMapper.selectById(param.getDepartmentId()).getDepartmentName());
+
+                for (AbsentInfoCheck absentInfoCheck : absentInfoChecks) {
+                    if (absentInfoCheck.getStaffId().equals(staffId)) {
+                        staffAbsentInfoDetail.setStaffName(absentInfoCheck.getStaffName());
+                        staffAbsentInfoDetail.setAbsentCheckTime(DateFormatUtils.format(new Date(), "yyyy-MM"));
+                        staffAbsentInfoDetail.setAbsentDays(staffAbsentInfoDetail.getAbsentDays() + absentInfoCheck.getAbsentDays());
+                        Absence absence = new Absence();
+                        absence.setAbsentDays(absentInfoCheck.getAbsentDays());
+                        absence.setAbsentEndTime(absentInfoCheck.getAbsentEndTime());
+                        absence.setAbsentStartTime(absentInfoCheck.getAbsentStartTime());
+                        absence.setAbsentReason(absentInfoCheck.getAbsentReason());
+                        staffAbsentInfoDetail.getAbsences().add(absence);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("人事处获取待计算考勤记录业务异常：", e);
             response.setCode("1");
             response.setMessage(e.getMessage());
         }

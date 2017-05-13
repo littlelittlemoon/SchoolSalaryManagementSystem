@@ -9,4 +9,5 @@
 		<result column="duty_salary" property="dutySalary" />
 	</resultMap>
 
+	
 </mapper>

@@ -18,5 +18,20 @@ import java.util.List;
  * @since 2017-04-16
  */
 public interface AbsentInfoMapper extends BaseMapper<AbsentInfo> {
-    List<AbsentInfoCheck> getAbsentInfoCheck(Pagination pagination, String staffId);
+    /**
+     * 下面两个方法部门用
+     */
+    List<AbsentInfoCheck> getAbsentInfoCheck(Pagination pagination, @Param("staffId") String staffId,
+                                             @Param("state") String state);
+
+    List<String> getStaffAbsentInfoPage(Pagination pagination, @Param("staffId") String staffId, @Param("searchCondition") String searchCondition);
+
+    /**
+     * 下面两个方法人事处用
+     */
+    List<String> getStaffAbsentInfoPageByDep(Pagination pagination, @Param("departmentId") String departmentId, @Param("searchCondition") String searchCondition);
+
+    List<AbsentInfoCheck> getAbsentInfoCheckByDep(Pagination pagination, @Param("departmentId") String departmentId);
+
+    void updateStatebatch(String staffId);
 }

@@ -2,14 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.ssms.mapper.AbsentMoneyMapper">
 
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="org.ssms.entity.AbsentMoney">
-		<id column="staff_id" property="staffId" />
-		<result column="due_days" property="dueDays" />
-		<result column="actual_days" property="actualDays" />
-		<result column="money" property="money" />
-		<result column="check_time" property="checkTime" />
-		<result column="absent_money_state" property="absentMoneyState" />
-	</resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.ssms.entity.AbsentMoney">
+        <id column="staff_id" property="staffId"/>
+        <result column="due_days" property="dueDays"/>
+        <result column="actual_days" property="actualDays"/>
+        <result column="money" property="money"/>
+        <result column="check_time" property="checkTime"/>
+        <result column="absent_money_state" property="absentMoneyState"/>
+    </resultMap>
+
+    <resultMap id="HrAbsentInfo" type="org.ssms.mapper.result.HrAbsentInfo">
+        <id column="staff_id" property="staffId"/>
+        <result column="staff_name" property="staffName"/>
+        <result column="check_time" property="checkTime"/>
+        <result column="department_name" property="departmentName"/>
+        <result column="absentDays" property="absentDays"/>
+        <result column="money" property="money"/>
+    </resultMap>
+
+    <select id="getHrAbsentInfo" resultMap="HrAbsentInfo">
+        SELECT
+        s.staff_id,
+        s.staff_name,
+        m.check_time,
+        d.department_name,
+        m.due_days-m.actual_days absentDays,
+        m.money
+        FROM t_staff_info s, t_absent_money m, t_department d
+        WHERE s.staff_id = m.staff_id
+        AND s.department_id = d.department_id
+        AND m.absent_money_state = 'ptf'
+        <if test="searchCondition!=null">
+            AND (s.staff_id=#{searchCondition} OR s.staff_name=#{searchCondition} OR
+            d.department_name=#{searchCondition})
+        </if>
+    </select>
 
 </mapper>

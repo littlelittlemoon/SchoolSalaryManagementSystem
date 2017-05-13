@@ -3,9 +3,7 @@ package org.ssms.web.param;
 import lombok.Data;
 
 @Data
-public class AbsentInfoQueryParam extends PageParam{
-    private String staffId;
-
+public class AbsentMoneyQueryParam extends PageParam {
     private String departmentId;
 
     private String searchCondition;

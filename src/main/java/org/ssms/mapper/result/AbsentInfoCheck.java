@@ -16,5 +16,7 @@ public class AbsentInfoCheck {
 
     private String absentEndTime;
 
-    private String absentDays;
+    private String absentCheckTime;
+
+    private Integer absentDays;
 }
