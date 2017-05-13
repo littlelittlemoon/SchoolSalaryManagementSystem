@@ -186,7 +186,7 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
                 StaffAbsentInfoDetail staffAbsentInfoDetail = new StaffAbsentInfoDetail();
                 staffAbsentInfoDetail.setStaffId(staffId);  //实例化员工请假详情对象
                 staffAbsentInfoDetails.add(staffAbsentInfoDetail);
-                staffAbsentInfoDetail.setAbsences(new ArrayList<Absence>(5));
+                staffAbsentInfoDetail.setAbsences(new ArrayList<>(5));
                 staffAbsentInfoDetail.setAbsentDays(0);
 
                 for (AbsentInfoCheck absentInfoCheck : absentInfoChecks) {
