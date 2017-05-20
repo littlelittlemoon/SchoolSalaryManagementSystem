@@ -9,6 +9,7 @@ import org.ssms.web.param.AbsentMoneyQueryParam;
 import org.ssms.web.result.BaseResponse;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -34,11 +35,28 @@ public class AbsentMoneyController {
     }
 
     /**
-     *
+     * hr获取待计算缺勤金的列表
      */
     @RequestMapping(value = "absentInfoResult", method = RequestMethod.GET)
     public String absentInfoResult(AbsentMoneyQueryParam param) {
         BaseResponse response = absentMoneyService.getAbsentInfoResult(param);
+
+        return JSON.toJSONString(response);
+    }
+
+    /**
+     * hr获取待计算缺勤金的列表
+     */
+    @RequestMapping(value = "absentMoneyResult", method = RequestMethod.GET)
+    public String absentMoneyResult(AbsentMoneyQueryParam param) {
+        BaseResponse response = absentMoneyService.getAbsentMoneyResult(param);
+
+        return JSON.toJSONString(response);
+    }
+
+    @RequestMapping(value = "updateAbsentMoney", method = RequestMethod.POST)
+    public String updateAbsentMoney(String staffId, String startTime, Double money)  {
+        BaseResponse response = absentMoneyService.updateAbsentInfo(staffId, startTime, money);
 
         return JSON.toJSONString(response);
     }

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import org.apache.ibatis.annotations.Param;
 import org.ssms.entity.AbsentMoney;
 import org.ssms.mapper.result.HrAbsentInfo;
-import org.ssms.web.result.Absence;
+import org.ssms.mapper.result.HrAbsentMoney;
 
 import java.util.List;
 
@@ -19,5 +19,15 @@ import java.util.List;
  * @since 2017-04-16
  */
 public interface AbsentMoneyMapper extends BaseMapper<AbsentMoney> {
+    /**
+     * 分页查询未计算的列表
+     *
+     * @param pagination
+     * @param searchCondition
+     * @return
+     */
     List<HrAbsentInfo> getHrAbsentInfo(Pagination pagination, @Param("searchCondition") String searchCondition);
+
+    List<HrAbsentMoney> getHrAbsentMoney(Pagination pagination, @Param("searchCondition") String searchCondition,
+                                         @Param("departmentId") String departmentId, @Param("absentMoneyState") String absentMoneyState);
 }

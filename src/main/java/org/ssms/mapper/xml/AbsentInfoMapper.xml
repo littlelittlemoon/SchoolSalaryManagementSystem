@@ -12,6 +12,7 @@
         <result column="absent_days" property="absentDays"/>
         <result column="absent_check_time" property="absentCheckTime"/>
         <result column="absent_state" property="absentState"/>
+        <result column="absent_money" property="absentMoney" />
     </resultMap>
 
     <resultMap id="CheckResultMap" type="org.ssms.mapper.result.AbsentInfoCheck">

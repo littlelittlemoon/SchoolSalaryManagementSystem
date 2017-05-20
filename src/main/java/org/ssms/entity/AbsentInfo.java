@@ -65,6 +65,12 @@ public class AbsentInfo extends Model<AbsentInfo> {
     @TableField("absent_check_time")
     private String absentCheckTime;
 
+    /**
+     * 缺勤金
+     */
+    @TableField("absent_money")
+    private Double absentMoney;
+
     @Override
     protected Serializable pkVal() {
         return this.staffId;

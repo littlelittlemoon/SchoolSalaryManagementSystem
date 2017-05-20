@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,7 @@ import java.io.Serializable;
  * @since 2017-04-17
  */
 @TableName("t_insurance")
+@Data
 public class Insurance extends Model<Insurance> {
 
     private static final long serialVersionUID = 1L;
@@ -49,69 +52,18 @@ public class Insurance extends Model<Insurance> {
      * 考核年月
      */
 	@TableField("insurance_time")
-	private Date insuranceTime;
+	private String insuranceTime;
     /**
      * 审核状态
      */
 	@TableField("insurance_state")
 	private String insuranceState;
 
+	@TableField("insurance_total")
+	private Float insuranceTotal;
 
-	public String getStaffId() {
-		return staffId;
-	}
-
-	public void setStaffId(String staffId) {
-		this.staffId = staffId;
-	}
-
-	public Float getInsuranceMedical() {
-		return insuranceMedical;
-	}
-
-	public void setInsuranceMedical(Float insuranceMedical) {
-		this.insuranceMedical = insuranceMedical;
-	}
-
-	public Float getInsuranceAged() {
-		return insuranceAged;
-	}
-
-	public void setInsuranceAged(Float insuranceAged) {
-		this.insuranceAged = insuranceAged;
-	}
-
-	public Float getInsuranceUnemp() {
-		return insuranceUnemp;
-	}
-
-	public void setInsuranceUnemp(Float insuranceUnemp) {
-		this.insuranceUnemp = insuranceUnemp;
-	}
-
-	public Float getInsuranceAccu() {
-		return insuranceAccu;
-	}
-
-	public void setInsuranceAccu(Float insuranceAccu) {
-		this.insuranceAccu = insuranceAccu;
-	}
-
-	public Date getInsuranceTime() {
-		return insuranceTime;
-	}
-
-	public void setInsuranceTime(Date insuranceTime) {
-		this.insuranceTime = insuranceTime;
-	}
-
-	public String getInsuranceState() {
-		return insuranceState;
-	}
-
-	public void setInsuranceState(String insuranceState) {
-		this.insuranceState = insuranceState;
-	}
+	@TableField("insurance_base")
+	private Float insuranceBase;
 
 	@Override
 	protected Serializable pkVal() {

@@ -39,4 +39,29 @@
         </if>
     </select>
 
+    <resultMap id="HrAbsentMoney" type="org.ssms.mapper.result.HrAbsentMoney">
+        <id column="staff_id" property="staffId"/>
+        <result column="staff_name" property="staffName"/>
+        <result column="check_time" property="checkTime"/>
+        <result column="department_name" property="departmentName"/>
+        <result column="absentDays" property="absentDays"/>
+        <result column="money" property="money"/>
+    </resultMap>
+
+    <select id="getHrAbsentMoney" resultMap="HrAbsentMoney">
+        SELECT
+        a.staff_id,
+        a.staff_name,
+        b.check_time,
+        c.department_name,
+        b.due_days - b.actual_days absentDays,
+        b.money
+        FROM t_staff_info a, t_absent_money b, t_department c
+        WHERE a.staff_id = b.staff_id AND a.department_id = c.department_id
+        AND a.department_id=#{departmentId} AND b.absent_money_state=#{absentMoneyState}
+        <if test="searchCondition!=null and searchCondition!=''">
+            AND (a.staff_id=#{searchCondition} OR a.staff_name=#{searchCondition} OR
+            c.department_name=#{searchCondition})
+        </if>
+    </select>
 </mapper>

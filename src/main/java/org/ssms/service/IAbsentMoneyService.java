@@ -6,7 +6,9 @@ import org.ssms.entity.AbsentMoney;
 import org.ssms.web.param.AbsentMoneyQueryParam;
 import org.ssms.web.result.BaseResponse;
 import org.ssms.web.result.HrAbsentInfoResult;
+import org.ssms.web.result.HrAbsentMoneyResult;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -21,4 +23,8 @@ public interface IAbsentMoneyService extends IService<AbsentMoney> {
     BaseResponse countAbsentMoney(List<String> staffIds);
 
     BaseResponse<HrAbsentInfoResult> getAbsentInfoResult(AbsentMoneyQueryParam param);
+
+    BaseResponse<HrAbsentMoneyResult> getAbsentMoneyResult(AbsentMoneyQueryParam param);
+
+    BaseResponse updateAbsentInfo(String staffId, String startTime, Double money) ;
 }

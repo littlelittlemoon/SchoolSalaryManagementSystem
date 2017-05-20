@@ -11,6 +11,8 @@
 		<result column="insurance_accu" property="insuranceAccu" />
 		<result column="insurance_time" property="insuranceTime" />
 		<result column="insurance_state" property="insuranceState" />
+		<result column="insurance_total" property="insuranceTotal" />
+		<result column="insurance_base" property="insuranceBase" />
 	</resultMap>
 
 </mapper>
