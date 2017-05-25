@@ -14,6 +14,7 @@ import org.ssms.entity.Insurance;
 import org.ssms.entity.Tax;
 import org.ssms.entity.viewentity.StaffInfoView;
 import org.ssms.mapper.AbsentMoneyMapper;
+import org.ssms.mapper.InsuranceMapper;
 import org.ssms.mapper.StaffInfoMapper;
 import org.ssms.mapper.TaxMapper;
 import org.ssms.mapper.result.HrAbsentMoney;
@@ -53,6 +54,8 @@ public class TaxServiceImpl extends ServiceImpl<TaxMapper, Tax> implements ITaxS
     @Resource
     private IInsuranceService insuranceService;
     @Resource
+    private InsuranceMapper insuranceMapper;
+    @Resource
     private AbsentMoneyMapper absentMoneyMapper;
 
     @Override
@@ -76,6 +79,12 @@ public class TaxServiceImpl extends ServiceImpl<TaxMapper, Tax> implements ITaxS
                 tax.setTaxTaxMoney(map.get("tax").floatValue());
                 tax.setTaxState("ptf");
                 baseMapper.insert(tax);
+
+                insurance.setInsuranceState("ptf");
+                EntityWrapper<Insurance> ew = new EntityWrapper<>();
+                ew.where("staff_id={0}", staffId);
+                ew.and("insurance_time={0}", insurance.getInsuranceTime());
+                insuranceMapper.update(insurance, ew);
             }
         } catch (Exception e) {
             log.error("", e);
