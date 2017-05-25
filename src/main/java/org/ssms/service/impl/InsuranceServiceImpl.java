@@ -17,6 +17,7 @@ import org.ssms.mapper.AbsentMoneyMapper;
 import org.ssms.mapper.InsuranceMapper;
 import org.ssms.mapper.StaffInfoMapper;
 import org.ssms.mapper.result.HrAbsentMoney;
+import org.ssms.service.IAbsentMoneyService;
 import org.ssms.service.IInsuranceService;
 import org.ssms.utils.MoneyUtils;
 import org.ssms.web.param.InsuranceQueryParam;
@@ -47,6 +48,8 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
     private AbsentMoneyMapper absentMoneyMapper;
     @Resource
     private StaffInfoMapper staffInfoMapper;
+    @Resource
+    private IAbsentMoneyService absentMoneyService;
 
     @Override
     public BaseResponse<InsuranceInfoResult> insuranceInfoResult(InsuranceQueryParam param) {
@@ -92,10 +95,7 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
                 StaffQueryParam staffQueryParam = new StaffQueryParam();
                 staffQueryParam.setStaffInfoSearch(staffId);
                 StaffInfoView staffInfoView = staffInfoMapper.selectStaffView(staffQueryParam).get(0);//调用模糊搜索的方法
-                EntityWrapper<AbsentMoney> ew = new EntityWrapper<>();
-                ew.where("staff_id={0}", staffId);
-                ew.like("check_time", DateFormatUtils.format(new Date(), "yyyy-MM-dd").substring(0, 7));
-                AbsentMoney absentMoney = absentMoneyMapper.selectList(ew).get(0);
+                AbsentMoney absentMoney = absentMoneyService.getAbsentMoney(staffId, DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
 
                 Map<String, BigDecimal> resultMap = MoneyUtils.countInsuranMoneyDetail(staffInfoView, absentMoney);
                 Insurance insurance = new Insurance();
@@ -111,10 +111,13 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
                 baseMapper.insert(insurance);
 
                 absentMoney.setAbsentMoneyState("ptf");
-                ew = new EntityWrapper<>();
+                absentMoneyService.updateAbsentMoney(absentMoney);
+
+                EntityWrapper<Insurance> ew = new EntityWrapper<>();
                 ew.where("staff_id={0}", staffId);
-                ew.and("check_time={0}", absentMoney.getCheckTime());
-                absentMoneyMapper.update(absentMoney, ew);
+                ew.and("insurance_time={0}", insurance.getInsuranceTime());
+                insurance.setInsuranceState("ptf");
+                baseMapper.update(insurance, ew);
             }
         } catch (Exception e) {
             log.error("", e);
@@ -127,28 +130,30 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
     @Override
     public BaseResponse updateInsuranMoney(String staffId, String startTime, Float medical, Float unemp, Float accu, Float aged) {
         BaseResponse response = new BaseResponse();
-        EntityWrapper<Insurance> ew = new EntityWrapper<>();
-        ew.where("staff_id={0}", staffId);
-        ew.like("insurance_time", startTime.substring(0, 7));
-        List<Insurance> insurances = baseMapper.selectList(ew);
-        if (CollectionUtils.isEmpty(insurances)) {
-            response.setMessage("找不到更新数据");
-            return response;
-        }
-        Insurance insurance = insurances.get(0);
+
+        Insurance insurance = getInsurance(staffId, startTime);
         insurance.setInsuranceMedical(medical);
         insurance.setInsuranceUnemp(unemp);
         insurance.setInsuranceAged(aged);
         insurance.setInsuranceAccu(accu);
         BigDecimal total = new BigDecimal(medical).add(new BigDecimal(unemp)).add(new BigDecimal(accu)).add(new BigDecimal(aged));
         insurance.setInsuranceTotal(total.floatValue());
-        ew = new EntityWrapper<>();
+        EntityWrapper<Insurance> ew = new EntityWrapper<>();
         ew.where("staff_id={0}", staffId);
         ew.and("insurance_time={0}", insurance.getInsuranceTime());
-        baseMapper.update(insurance,ew);
+        baseMapper.update(insurance, ew);
 
         return response;
     }
 
-
+    public Insurance getInsurance(String staffId, String time) {
+        EntityWrapper<Insurance> ew = new EntityWrapper<>();
+        ew.where("staff_id={0}", staffId);
+        ew.like("insurance_time", time.substring(0, 7));
+        List<Insurance> insurances = baseMapper.selectList(ew);
+//        if (CollectionUtils.isEmpty(insurances)) {
+//
+//        }
+        return insurances.get(0);
+    }
 }

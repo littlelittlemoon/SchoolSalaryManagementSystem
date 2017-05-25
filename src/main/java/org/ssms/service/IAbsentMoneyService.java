@@ -8,7 +8,6 @@ import org.ssms.web.result.BaseResponse;
 import org.ssms.web.result.HrAbsentInfoResult;
 import org.ssms.web.result.HrAbsentMoneyResult;
 
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -26,5 +25,9 @@ public interface IAbsentMoneyService extends IService<AbsentMoney> {
 
     BaseResponse<HrAbsentMoneyResult> getAbsentMoneyResult(AbsentMoneyQueryParam param);
 
-    BaseResponse updateAbsentInfo(String staffId, String startTime, Double money) ;
+    BaseResponse updateAbsentInfo(String staffId, String startTime, Double money);
+
+    AbsentMoney getAbsentMoney(String staffId, String time);
+
+    void updateAbsentMoney(AbsentMoney absentMoney);
 }

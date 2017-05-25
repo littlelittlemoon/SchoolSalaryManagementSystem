@@ -3,6 +3,7 @@ package org.ssms.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.ssms.entity.AbsentInfo;
 import org.ssms.entity.AbsentMoney;
+import org.ssms.entity.Insurance;
 import org.ssms.entity.viewentity.StaffInfoView;
 
 import java.math.BigDecimal;
@@ -117,6 +118,54 @@ public class MoneyUtils {
         result.put("accu", accu);//公积金
         result.put("base", baseNum);
         result.put("total", medical.add(aged).add(unemp).add(accu));
+
+        return result;
+    }
+
+    /**
+     * 根据人员信息计算税金
+     *
+     * @param staffInfoView
+     * @param absentMoney
+     * @param insurance
+     * @return
+     */
+    public static Map<String, BigDecimal> countTaxMoneyDetail(StaffInfoView staffInfoView, AbsentMoney absentMoney, Insurance insurance) {
+        Map<String, BigDecimal> result = new HashMap<>();
+        BigDecimal baseMoney = new BigDecimal(staffInfoView.getTitleBaseSalary())  //这一坨都是计算缴纳基数
+                .add(new BigDecimal(staffInfoView.getDutySalary()))
+                .add(new BigDecimal(staffInfoView.getTitleSalary()))
+                .subtract(new BigDecimal(insurance.getInsuranceTotal()))
+                .subtract(new BigDecimal(absentMoney.getMoney()))
+                .subtract(new BigDecimal(3500));
+        BigDecimal taxRate = null;
+        BigDecimal taxCaucl = null;
+        if (baseMoney.intValue() <= 1500) {
+            taxRate = new BigDecimal(0.03);
+            taxCaucl = new BigDecimal(0);
+        } else if (baseMoney.intValue() > 1500 && baseMoney.intValue() < 4500) {
+            taxRate = new BigDecimal(10);
+            taxCaucl = new BigDecimal(105);
+        } else if (baseMoney.intValue() > 4500 && baseMoney.intValue() < 9000) {
+            taxRate = new BigDecimal(20);
+            taxCaucl = new BigDecimal(555);
+        } else if (baseMoney.intValue() > 9000 && baseMoney.intValue() < 35000) {
+            taxRate = new BigDecimal(25);
+            taxCaucl = new BigDecimal(1005);
+        } else if (baseMoney.intValue() > 35000 && baseMoney.intValue() < 55000) {
+            taxRate = new BigDecimal(30);
+            taxCaucl = new BigDecimal(2755);
+        } else if (baseMoney.intValue() > 55000 && baseMoney.intValue() < 80000) {
+            taxRate = new BigDecimal(35);
+            taxCaucl = new BigDecimal(5505);
+        } else {
+            taxRate = new BigDecimal(45);
+            taxCaucl = new BigDecimal(13505);
+        }
+        result.put("tax", baseMoney.multiply(taxRate).subtract(taxCaucl));
+        result.put("taxRate", taxRate);
+        result.put("taxCaucl", taxCaucl);
+        result.put("baseMoney", baseMoney);
 
         return result;
     }

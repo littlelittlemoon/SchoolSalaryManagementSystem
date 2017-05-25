@@ -90,6 +90,9 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
                 if (Objects.equals(absentInfo.getAbsentState(), "dtp")) {
                     absentInfoPage.getRecords().get(i).setAbsentState("待人事处审核");
                 }
+                if (Objects.equals(absentInfo.getAbsentState(), "done")) {
+                    absentInfoPage.getRecords().get(i).setAbsentState("已统计");
+                }
             }
 
             AbsentInfoResult absentInfoResult = new AbsentInfoResult();

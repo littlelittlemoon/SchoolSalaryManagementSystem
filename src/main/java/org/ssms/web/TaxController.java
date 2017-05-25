@@ -1,12 +1,15 @@
 package org.ssms.web;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssms.service.ITaxService;
 import org.ssms.web.param.TaxQueryParam;
+import org.ssms.web.result.BaseResponse;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -24,11 +27,16 @@ public class TaxController {
 
     @RequestMapping(value = "countTaxMoney", method = RequestMethod.POST)
     public String countTaxMoney(String staffIds) {
-        return "";
+        List<String> ids = JSON.parseArray(staffIds, String.class);
+        BaseResponse response = taxService.countTaxMoney(ids);
+
+        return JSON.toJSONString(response);
     }
 
-    @RequestMapping(value = "taxMoneyResult", method = RequestMethod.POST)
+    @RequestMapping(value = "taxMoneyResult", method = RequestMethod.GET)
     public String taxMoneyResult(TaxQueryParam param) {
-        return "";
+        BaseResponse response = taxService.taxMoneyResult(param);
+
+        return JSON.toJSONString(response);
     }
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.service.IService;
 import org.ssms.entity.Tax;
 import org.ssms.web.param.TaxQueryParam;
 import org.ssms.web.result.BaseResponse;
+import org.ssms.web.result.TaxInfoResult;
 
 import java.util.List;
 
@@ -19,5 +20,5 @@ import java.util.List;
 public interface ITaxService extends IService<Tax> {
 	BaseResponse countTaxMoney(List<String> staffIds);
 
-	BaseResponse taxMoneyResult(TaxQueryParam param);
+	BaseResponse<TaxInfoResult> taxMoneyResult(TaxQueryParam param);
 }

@@ -131,7 +131,7 @@ public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, Absen
         page.setCurrent(param.getCurrentPage());
         page.setSize(param.getPageSize());
 
-        List<HrAbsentMoney> hrAbsentMoneyList = baseMapper.getHrAbsentMoney(page, param.getSearchCondition(),param.getDepartmentId(),"p_pass");
+        List<HrAbsentMoney> hrAbsentMoneyList = baseMapper.getHrAbsentMoney(page, param.getSearchCondition(), param.getDepartmentId(), "p_pass");
         page.setRecords(hrAbsentMoneyList);
         result.setHrAbsentMoneyList(hrAbsentMoneyList);
         result.setCurrentPage(page.getCurrent());
@@ -164,11 +164,8 @@ public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, Absen
         absentInfo.setAbsentMoney(money);
         absentInfoMapper.update(absentInfo, ew);
 
+        AbsentMoney absentMoney = this.getAbsentMoney(staffId, startTime);
         EntityWrapper<AbsentMoney> entityWrapper = new EntityWrapper<>();
-        entityWrapper.where("staff_id={0}", staffId);
-        entityWrapper.like("check_time", startTime.substring(0, 7));
-        AbsentMoney absentMoney = this.selectList(entityWrapper).get(0);
-        entityWrapper = new EntityWrapper<>();
         entityWrapper.where("staff_id={0}", staffId);
         entityWrapper.and("check_time={0}", absentMoney.getCheckTime());
         BigDecimal temp = new BigDecimal(absentMoney.getMoney()).subtract(new BigDecimal(money));
@@ -178,4 +175,20 @@ public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, Absen
         return response;
     }
 
+    public AbsentMoney getAbsentMoney(String staffId, String time) {
+        EntityWrapper<AbsentMoney> entityWrapper = new EntityWrapper<>();
+        entityWrapper.where("staff_id={0}", staffId);
+        entityWrapper.like("check_time", time.substring(0, 7));
+        AbsentMoney absentMoney = this.selectList(entityWrapper).get(0);
+
+        return absentMoney;
+    }
+
+    @Override
+    public void updateAbsentMoney(AbsentMoney absentMoney) {
+        EntityWrapper<AbsentMoney> ew = new EntityWrapper<>();
+        ew.where("staff_id={0}", absentMoney.getStaffId());
+        ew.and("check_time={0}", absentMoney.getCheckTime());
+        baseMapper.update(absentMoney, ew);
+    }
 }

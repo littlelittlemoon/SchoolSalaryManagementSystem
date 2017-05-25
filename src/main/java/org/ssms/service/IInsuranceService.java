@@ -18,9 +18,11 @@ import java.util.List;
  * @since 2017-04-16
  */
 public interface IInsuranceService extends IService<Insurance> {
-   BaseResponse<InsuranceInfoResult> insuranceInfoResult(InsuranceQueryParam param);
+    BaseResponse<InsuranceInfoResult> insuranceInfoResult(InsuranceQueryParam param);
 
-   BaseResponse countInsuranceMoney(List<String> staffIds);
+    BaseResponse countInsuranceMoney(List<String> staffIds);
 
-   BaseResponse updateInsuranMoney(String staffId, String startTime, Float medical, Float unemp, Float accu, Float aged);
+    BaseResponse updateInsuranMoney(String staffId, String startTime, Float medical, Float unemp, Float accu, Float aged);
+
+    Insurance getInsurance(String staffId, String time);
 }
