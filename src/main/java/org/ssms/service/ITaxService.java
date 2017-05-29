@@ -18,7 +18,11 @@ import java.util.List;
  * @since 2017-04-16
  */
 public interface ITaxService extends IService<Tax> {
-	BaseResponse countTaxMoney(List<String> staffIds);
+    BaseResponse countTaxMoney(List<String> staffIds);
 
-	BaseResponse<TaxInfoResult> taxMoneyResult(TaxQueryParam param);
+    BaseResponse<TaxInfoResult> taxMoneyResult(TaxQueryParam param);
+
+    BaseResponse updateTaxMoney(String staffId, String taxTime, Float taxMoney);
+
+    BaseResponse sendToFs(String departmentId);
 }

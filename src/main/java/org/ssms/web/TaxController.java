@@ -39,4 +39,19 @@ public class TaxController {
 
         return JSON.toJSONString(response);
     }
+
+    @RequestMapping(value = "updateTaxMoney", method = RequestMethod.POST)
+    public String updateTax(String staffId, String taxTime, Float taxMoney) {
+        BaseResponse response = taxService.updateTaxMoney(staffId, taxTime, taxMoney);
+
+        return JSON.toJSONString(response);
+
+    }
+
+    @RequestMapping(value = "sendToFs", method = RequestMethod.POST)
+    public String sendToFs(String departmentId) {
+        BaseResponse response = taxService.sendToFs(departmentId);
+
+        return JSON.toJSONString(response);
+    }
 }

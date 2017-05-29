@@ -25,7 +25,6 @@ import org.ssms.utils.MoneyUtils;
 import org.ssms.web.param.StaffQueryParam;
 import org.ssms.web.param.TaxQueryParam;
 import org.ssms.web.result.BaseResponse;
-import org.ssms.web.result.InsuranceInfo;
 import org.ssms.web.result.TaxInfo;
 import org.ssms.web.result.TaxInfoResult;
 
@@ -108,22 +107,64 @@ public class TaxServiceImpl extends ServiceImpl<TaxMapper, Tax> implements ITaxS
 
         List<TaxInfo> taxInfos = new ArrayList<>();
         for (HrAbsentMoney hrAbsentMoney : page.getRecords()) {
-            EntityWrapper<Tax> ew = new EntityWrapper<>();
-            ew.where("staff_id={0}", hrAbsentMoney.getStaffId());
-            ew.and("tax_state={0}", "ptf");
-            ew.like("check_time", DateFormatUtils.format(new Date(), "yyyy-MM-dd").substring(0, 7));
-            List<Tax> taxes = this.selectList(ew);
-            if (CollectionUtils.isEmpty(taxes)) {
+//            EntityWrapper<Tax> ew = new EntityWrapper<>();
+//            ew.where("staff_id={0}", hrAbsentMoney.getStaffId());
+//            ew.and("tax_state={0}", "ptf");
+//            ew.like("check_time", DateFormatUtils.format(new Date(), "yyyy-MM-dd").substring(0, 7));
+//            List<Tax> taxes = this.selectList(ew);
+//            if (CollectionUtils.isEmpty(taxes)) {
+//                continue;
+//            }
+            Tax tax = getTax(hrAbsentMoney.getStaffId(), DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
+            if (tax == null) {
                 continue;
             }
-            Tax tax = taxes.get(0);
             TaxInfo taxInfo = new TaxInfo();
             taxInfos.add(taxInfo);
             BeanUtils.copyProperties(hrAbsentMoney, taxInfo);
-            BeanUtils.copyProperties(tax, taxInfo);
+            taxInfo.setTaxCalcu(String.valueOf(tax.getTaxCalcu()));
+            taxInfo.setBaseMoney(String.valueOf(tax.getTaxTaxable()));
+            taxInfo.setTaxMoney(String.valueOf(tax.getTaxTaxMoney()));
+            taxInfo.setTaxRate(String.valueOf(tax.getTaxRate()));
             taxInfo.setCheckTime(tax.getCheckTime());
         }
         taxInfoResult.setTaxInfoList(taxInfos);
+
+        return response;
+    }
+
+    private Tax getTax(String staffId, String time) {
+        EntityWrapper<Tax> ew = new EntityWrapper<>();
+        ew.where("staff_id={0}", staffId);
+        ew.and("tax_state={0}", "ptf");
+        ew.like("check_time", time.substring(0, 7));
+        List<Tax> taxes = this.selectList(ew);
+        if (CollectionUtils.isEmpty(taxes)) {
+            return null;
+        }
+        return taxes.get(0);
+    }
+
+    @Override
+    public BaseResponse updateTaxMoney(String staffId, String taxTime, Float taxMoney) {
+        BaseResponse response = new BaseResponse();
+        Tax tax = getTax(staffId, taxTime);
+        tax.setTaxTaxMoney(taxMoney);
+
+        EntityWrapper<Tax> ew = new EntityWrapper<>();
+        ew.where("staff_id={0}", staffId);
+        ew.and("check_time", tax.getCheckTime());
+        baseMapper.update(tax, ew);
+
+        return response;
+    }
+
+    //发送到财务处
+    @Override
+    public BaseResponse sendToFs(String departmentId) {
+        BaseResponse response = new BaseResponse();
+
+        baseMapper.sentToFs(departmentId);
 
         return response;
     }

@@ -6,12 +6,12 @@ import org.ssms.entity.Tax;
 
 /**
  * <p>
-  * 纳税款表 Mapper 接口
+ * 纳税款表 Mapper 接口
  * </p>
  *
  * @author TanKaiYue
  * @since 2017-04-16
  */
 public interface TaxMapper extends BaseMapper<Tax> {
-
+    void sentToFs(String departmentId);
 }

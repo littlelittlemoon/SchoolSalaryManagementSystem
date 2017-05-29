@@ -2,15 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.ssms.mapper.TaxMapper">
 
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="org.ssms.entity.Tax">
-		<id column="staff_id" property="staffId" />
-		<result column="tax_taxable" property="taxTaxable" />
-		<result column="tax_rate" property="taxRate" />
-		<result column="tax_calcu" property="taxCalcu" />
-		<result column="tax_tax_money" property="taxTaxMoney" />
-		<result column="check_time" property="checkTime" />
-		<result column="tax_state" property="taxState" />
-	</resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.ssms.entity.Tax">
+        <id column="staff_id" property="staffId"/>
+        <result column="tax_taxable" property="taxTaxable"/>
+        <result column="tax_rate" property="taxRate"/>
+        <result column="tax_calcu" property="taxCalcu"/>
+        <result column="tax_tax_money" property="taxTaxMoney"/>
+        <result column="check_time" property="checkTime"/>
+        <result column="tax_state" property="taxState"/>
+    </resultMap>
 
+    <update id="sentToFs" parameterType="string">
+		  UPDATE t_tax
+            SET tax_state = replace(tax_state, 'ptf', 'p_done')
+            WHERE
+              staff_id IN (SELECT staff_id
+                           FROM t_staff_info
+                           WHERE t_staff_info.department_id = #{departmentId})
+              AND date_format(t_tax.check_time, '%Y-%m') = date_format(now(), '%Y-%m')
+              AND t_tax.tax_state = 'ptf';
+	</update>
 </mapper>
