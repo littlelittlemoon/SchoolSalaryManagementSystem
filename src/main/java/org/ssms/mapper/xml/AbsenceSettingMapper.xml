@@ -8,6 +8,7 @@
 		<result column="absent_type" property="absentType" />
 		<result column="proportion" property="proportion" />
 		<result column="should_days" property="shouldDays" />
+		<result column="status" property="status" />
 	</resultMap>
 
 </mapper>

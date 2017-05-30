@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ssms.entity.AbsentMoney;
 import org.ssms.entity.Insurance;
+import org.ssms.entity.InsuranceSetting;
 import org.ssms.entity.viewentity.StaffInfoView;
 import org.ssms.mapper.AbsentMoneyMapper;
 import org.ssms.mapper.InsuranceMapper;
+import org.ssms.mapper.InsuranceSettingMapper;
 import org.ssms.mapper.StaffInfoMapper;
 import org.ssms.mapper.result.HrAbsentMoney;
 import org.ssms.service.IAbsentMoneyService;
@@ -50,6 +52,8 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
     private StaffInfoMapper staffInfoMapper;
     @Resource
     private IAbsentMoneyService absentMoneyService;
+    @Resource
+    private InsuranceSettingMapper insuranceSettingMapper;
 
     @Override
     public BaseResponse<InsuranceInfoResult> insuranceInfoResult(InsuranceQueryParam param) {
@@ -94,10 +98,14 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
                 //查询视图中的信息，为了算缴纳基数
                 StaffQueryParam staffQueryParam = new StaffQueryParam();
                 staffQueryParam.setStaffInfoSearch(staffId);
-                StaffInfoView staffInfoView = staffInfoMapper.selectStaffView(staffQueryParam).get(0);//调用模糊搜索的方法
+                StaffInfoView staffInfoView = staffInfoMapper.selectStaffView(new Page<>(), staffQueryParam).get(0);//调用模糊搜索的方法
                 AbsentMoney absentMoney = absentMoneyService.getAbsentMoney(staffId, DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
 
-                Map<String, BigDecimal> resultMap = MoneyUtils.countInsuranMoneyDetail(staffInfoView, absentMoney);
+                EntityWrapper<InsuranceSetting> entityWrapper = new EntityWrapper<>();
+                entityWrapper.where("status={0}", "enable");
+                InsuranceSetting insuranceSetting = insuranceSettingMapper.selectList(entityWrapper).get(0);
+
+                Map<String, BigDecimal> resultMap = MoneyUtils.countInsuranMoneyDetail(staffInfoView, absentMoney, insuranceSetting);
                 Insurance insurance = new Insurance();
                 insurance.setStaffId(staffId);
                 insurance.setInsuranceTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd"));

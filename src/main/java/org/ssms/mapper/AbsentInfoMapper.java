@@ -24,7 +24,8 @@ public interface AbsentInfoMapper extends BaseMapper<AbsentInfo> {
     List<AbsentInfoCheck> getAbsentInfoCheck(Pagination pagination, @Param("staffId") String staffId,
                                              @Param("state") String state);
 
-    List<String> getStaffAbsentInfoPage(Pagination pagination, @Param("staffId") String staffId, @Param("searchCondition") String searchCondition);
+    List<String> getStaffAbsentInfoPage(Pagination pagination, @Param("staffId") String staffId, @Param("searchCondition") String searchCondition,
+                                        @Param("id") String id, @Param("time") String time,@Param("state")String state);
 
     /**
      * 下面两个方法人事处用

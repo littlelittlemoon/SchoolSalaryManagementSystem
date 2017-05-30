@@ -30,4 +30,11 @@ public interface AbsentMoneyMapper extends BaseMapper<AbsentMoney> {
 
     List<HrAbsentMoney> getHrAbsentMoney(Pagination pagination, @Param("searchCondition") String searchCondition,
                                          @Param("departmentId") String departmentId, @Param("absentMoneyState") String absentMoneyState);
+
+    List<HrAbsentMoney> getAbsentMoney(Pagination pagination, @Param("departmentId") String departmentId,
+                                       @Param("searchCondition") String searchCondition,
+                                       @Param("time") String time, @Param("code") Integer code);
+
+    void sendToBank(@Param("departmentId") String departmentId, @Param("oriState") String oriState,
+                    @Param("toState") String toState, @Param("condition") String condition);
 }

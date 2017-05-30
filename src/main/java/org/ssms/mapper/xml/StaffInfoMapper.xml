@@ -32,7 +32,7 @@
         SELECT *
         FROM v_staff_info
         <where>
-            <if test="param.staffInfoSearch != null">
+            <if test="param.staffInfoSearch != null and param.staffInfoSearch != ''">
                 staff_id = #{param.staffInfoSearch}
                 OR staff_name = #{param.staffInfoSearch}
                 OR department_name = #{param.staffInfoSearch}

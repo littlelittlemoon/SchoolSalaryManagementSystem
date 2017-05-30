@@ -10,6 +10,7 @@
 		<result column="aged_rate" property="agedRate" />
 		<result column="unemp_rate" property="unempRate" />
 		<result column="accu_rate" property="accuRate" />
+		<result column="status" property="status" />
 	</resultMap>
 
 </mapper>

@@ -20,6 +20,7 @@ import org.ssms.web.param.CheckAbsentInfoParam;
 import org.ssms.web.result.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -170,10 +171,8 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
         page.setSize(param.getPageSize());
 
         try {
-            if (StringUtils.isEmpty(param.getSearchCondition())) {
-                param.setSearchCondition(null);
-            }
-            List<String> staffIds = baseMapper.getStaffAbsentInfoPage(page, param.getStaffId(), param.getSearchCondition());//自定义SQL多表查询，获得分页信息
+            List<String> staffIds = baseMapper.getStaffAbsentInfoPage(page, param.getStaffId(), param.getSearchCondition(),
+                    param.getId(), param.getTime(), param.getState());//自定义SQL多表查询，获得分页信息
             page.setRecords(staffIds);
             staffAbsentInfoResult.setCurrentPage(page.getCurrent());
             staffAbsentInfoResult.setTotal(page.getTotal());
@@ -181,7 +180,11 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
             page = new Page<>();
             page.setSize(9999);
             page.setCurrent(1);
-            List<AbsentInfoCheck> absentInfoChecks = baseMapper.getAbsentInfoCheck(page, param.getStaffId(), "d_pass");
+            String temp = param.getStaffId();
+            if (null == temp) {
+                temp = param.getId();
+            }
+            List<AbsentInfoCheck> absentInfoChecks = baseMapper.getAbsentInfoCheck(page, temp, param.getState());
 
             List<StaffAbsentInfoDetail> staffAbsentInfoDetails = new ArrayList<>();
             staffAbsentInfoResult.setStaffAbsentInfoDetails(staffAbsentInfoDetails);
@@ -191,20 +194,25 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
                 staffAbsentInfoDetails.add(staffAbsentInfoDetail);
                 staffAbsentInfoDetail.setAbsences(new ArrayList<>(5));
                 staffAbsentInfoDetail.setAbsentDays(0);
-
+                BigDecimal totalAbsentMoney = new BigDecimal(0);
                 for (AbsentInfoCheck absentInfoCheck : absentInfoChecks) {
                     if (absentInfoCheck.getStaffId().equals(staffId)) {
                         staffAbsentInfoDetail.setStaffName(absentInfoCheck.getStaffName());
                         staffAbsentInfoDetail.setAbsentCheckTime(DateFormatUtils.format(new Date(), "yyyy-MM"));
                         staffAbsentInfoDetail.setAbsentDays(staffAbsentInfoDetail.getAbsentDays() + absentInfoCheck.getAbsentDays());
+                        totalAbsentMoney = totalAbsentMoney.add(new BigDecimal(absentInfoCheck.getAbsentMoney()));
                         Absence absence = new Absence();
                         staffAbsentInfoDetail.getAbsences().add(absence);
                         absence.setAbsentDays(absentInfoCheck.getAbsentDays());
                         absence.setAbsentEndTime(absentInfoCheck.getAbsentEndTime());
                         absence.setAbsentStartTime(absentInfoCheck.getAbsentStartTime());
                         absence.setAbsentReason(absentInfoCheck.getAbsentReason());
+                        absence.setMoney(absentInfoCheck.getAbsentMoney());
                     }
                 }
+                staffAbsentInfoDetail.setShouldDays(21.75f);
+                staffAbsentInfoDetail.setRealDays(new BigDecimal(21.75).subtract(new BigDecimal(staffAbsentInfoDetail.getAbsentDays())).floatValue());
+                staffAbsentInfoDetail.setAbsentTotalMoney(totalAbsentMoney.floatValue());
             }
 
         } catch (Exception e) {

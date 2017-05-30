@@ -18,5 +18,5 @@ public class Absence {
 
     private Integer absentDays;
 
-    private String money;
+    private Float money;
 }

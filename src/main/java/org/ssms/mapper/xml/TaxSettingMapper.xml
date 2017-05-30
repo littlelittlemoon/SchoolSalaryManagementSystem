@@ -5,11 +5,11 @@
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="org.ssms.entity.TaxSetting">
 		<id column="id" property="id" />
-		<result column="level" property="level" />
 		<result column="min_num" property="minNum" />
 		<result column="max_num" property="maxNum" />
 		<result column="rate" property="rate" />
 		<result column="calcu_num" property="calcuNum" />
+		<result column="status" property="status" />
 	</resultMap>
 
 </mapper>

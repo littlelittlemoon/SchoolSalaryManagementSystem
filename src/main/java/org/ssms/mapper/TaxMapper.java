@@ -2,6 +2,7 @@ package org.ssms.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.ssms.entity.Tax;
 
 /**
@@ -14,4 +15,7 @@ import org.ssms.entity.Tax;
  */
 public interface TaxMapper extends BaseMapper<Tax> {
     void sentToFs(String departmentId);
+
+    void sendToBank(@Param("departmentId") String departmentId, @Param("oriState") String oriState,
+                    @Param("toState") String toState, @Param("condition") String condition);
 }

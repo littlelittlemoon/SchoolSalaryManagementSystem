@@ -6,12 +6,13 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ssms.entity.AbsenceSetting;
 import org.ssms.entity.AbsentInfo;
 import org.ssms.entity.AbsentMoney;
 import org.ssms.entity.viewentity.StaffInfoView;
+import org.ssms.mapper.AbsenceSettingMapper;
 import org.ssms.mapper.AbsentInfoMapper;
 import org.ssms.mapper.AbsentMoneyMapper;
-import org.ssms.mapper.DutyMapper;
 import org.ssms.mapper.StaffInfoMapper;
 import org.ssms.mapper.result.HrAbsentInfo;
 import org.ssms.mapper.result.HrAbsentMoney;
@@ -41,7 +42,7 @@ public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, Absen
     @Resource
     private AbsentInfoMapper absentInfoMapper;
     @Resource
-    private DutyMapper dutyMapper;
+    private AbsenceSettingMapper absenceSettingMapper;
     @Resource
     private StaffInfoMapper staffInfoMapper;
 
@@ -57,7 +58,7 @@ public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, Absen
             List<AbsentInfo> absentInfos = absentInfoMapper.selectList(ew);
             StaffQueryParam staffQueryParam = new StaffQueryParam();
             staffQueryParam.setStaffInfoSearch(id);
-            List<StaffInfoView> staffInfoViews = staffInfoMapper.selectStaffView(staffQueryParam);//调用模糊搜索的方法
+            List<StaffInfoView> staffInfoViews = staffInfoMapper.selectStaffView(new Page<>(), staffQueryParam);//调用模糊搜索的方法
 
             int actualDay = absentInfos.stream().mapToInt(a -> a.getAbsentDays()).sum();
             AbsentMoney absentMoney = new AbsentMoney();
@@ -69,7 +70,10 @@ public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, Absen
             StaffInfoView staffInfoView = staffInfoViews.get(0);
             BigDecimal totalAbsentMoney = new BigDecimal(0);
             for (AbsentInfo absentInfo : absentInfos) {
-                BigDecimal temp = MoneyUtils.countAbsentMoneyDetail(absentInfo.getAbsentReason(),
+                EntityWrapper<AbsenceSetting> entityWrapper = new EntityWrapper<>();
+                entityWrapper.where("absent_type={0}", absentInfo.getAbsentReason());
+                AbsenceSetting absenceSetting = absenceSettingMapper.selectList(entityWrapper).get(0);
+                BigDecimal temp = MoneyUtils.countAbsentMoneyDetail(absenceSetting,
                         absentInfo, staffInfoView);
                 absentInfo.setAbsentMoney(temp.doubleValue());
                 totalAbsentMoney = totalAbsentMoney.add(temp);

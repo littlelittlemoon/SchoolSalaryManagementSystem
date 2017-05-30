@@ -71,6 +71,9 @@ public class AbsentInfo extends Model<AbsentInfo> {
     @TableField("absent_money")
     private Double absentMoney;
 
+    @TableField("absent_detail")
+    private String absentDetail;
+
     @Override
     protected Serializable pkVal() {
         return this.staffId;

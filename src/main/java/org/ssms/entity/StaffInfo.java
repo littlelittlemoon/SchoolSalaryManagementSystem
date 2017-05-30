@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -15,6 +17,7 @@ import java.io.Serializable;
  * @author TanKaiYue
  * @since 2017-04-17
  */
+@Data
 @TableName("t_staff_info")
 public class StaffInfo extends Model<StaffInfo> {
 
@@ -64,7 +67,7 @@ public class StaffInfo extends Model<StaffInfo> {
      * 入职时间
      */
 	@TableField("staff_entry_time")
-	private Date staffEntryTime;
+	private String staffEntryTime;
     /**
      * 银行卡账号
      */
@@ -80,103 +83,6 @@ public class StaffInfo extends Model<StaffInfo> {
      */
 	@TableField("role_id")
 	private String roleId;
-
-
-	public String getStaffId() {
-		return staffId;
-	}
-
-	public void setStaffId(String staffId) {
-		this.staffId = staffId;
-	}
-
-	public String getStaffPassWord() {
-		return staffPassWord;
-	}
-
-	public void setStaffPassWord(String staffPassWord) {
-		this.staffPassWord = staffPassWord;
-	}
-
-	public String getStaffName() {
-		return staffName;
-	}
-
-	public void setStaffName(String staffName) {
-		this.staffName = staffName;
-	}
-
-	public String getStaffSex() {
-		return staffSex;
-	}
-
-	public void setStaffSex(String staffSex) {
-		this.staffSex = staffSex;
-	}
-
-	public String getStaffIdentityNum() {
-		return staffIdentityNum;
-	}
-
-	public void setStaffIdentityNum(String staffIdentityNum) {
-		this.staffIdentityNum = staffIdentityNum;
-	}
-
-	public String getDepartmentId() {
-		return departmentId;
-	}
-
-	public void setDepartmentId(String departmentId) {
-		this.departmentId = departmentId;
-	}
-
-	public String getTitleId() {
-		return titleId;
-	}
-
-	public void setTitleId(String titleId) {
-		this.titleId = titleId;
-	}
-
-	public String getDutyId() {
-		return dutyId;
-	}
-
-	public void setDutyId(String dutyId) {
-		this.dutyId = dutyId;
-	}
-
-	public Date getStaffEntryTime() {
-		return staffEntryTime;
-	}
-
-	public void setStaffEntryTime(Date staffEntryTime) {
-		this.staffEntryTime = staffEntryTime;
-	}
-
-	public String getStaffBankAcount() {
-		return staffBankAcount;
-	}
-
-	public void setStaffBankAcount(String staffBankAcount) {
-		this.staffBankAcount = staffBankAcount;
-	}
-
-	public String getStaffTel() {
-		return staffTel;
-	}
-
-	public void setStaffTel(String staffTel) {
-		this.staffTel = staffTel;
-	}
-
-	public String getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
-	}
 
 	@Override
 	protected Serializable pkVal() {

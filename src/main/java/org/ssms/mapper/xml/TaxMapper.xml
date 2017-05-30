@@ -23,4 +23,15 @@
               AND date_format(t_tax.check_time, '%Y-%m') = date_format(now(), '%Y-%m')
               AND t_tax.tax_state = 'ptf';
 	</update>
+
+    <update id="sendToBank" parameterType="string">
+        UPDATE t_tax
+            SET tax_state = replace(tax_state, #{oriState}, #{toState})
+            WHERE
+              staff_id IN (SELECT staff_id
+                           FROM t_staff_info
+                           WHERE t_staff_info.department_id = #{departmentId})
+              AND date_format(t_tax.check_time, '%Y-%m') = date_format(now(), '%Y-%m')
+              AND t_tax.tax_state = #{condition}
+    </update>
 </mapper>

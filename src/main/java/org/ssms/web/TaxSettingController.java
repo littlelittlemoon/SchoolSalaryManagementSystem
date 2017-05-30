@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssms.entity.TaxSetting;
 import org.ssms.service.ITaxSettingService;
+import org.ssms.utils.UUIDGenerator;
 import org.ssms.web.result.BaseResponse;
 
 import javax.annotation.Resource;
@@ -27,8 +28,7 @@ public class TaxSettingController {
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list() {
-        BaseResponse response = new BaseResponse();
-        response.setData(taxSettingService.selectList(new EntityWrapper<>()));
+        BaseResponse response = taxSettingService.list();
 
         return JSON.toJSONString(response);
     }
@@ -36,6 +36,7 @@ public class TaxSettingController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add(TaxSetting setting) {
         BaseResponse response = new BaseResponse();
+        setting.setId(UUIDGenerator.generatorId());
         taxSettingService.insert(setting);
 
         return JSON.toJSONString(response);

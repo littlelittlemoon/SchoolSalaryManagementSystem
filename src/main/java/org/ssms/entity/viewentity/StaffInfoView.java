@@ -35,7 +35,7 @@ public class StaffInfoView {
     /**
      * 入职时间
      */
-    private Date staffEntryTime;
+    private String staffEntryTime;
     /**
      * 银行卡账号
      */

@@ -22,6 +22,12 @@ public class StaffAbsentInfoDetail {
 
     private String department;
 
+    private Float shouldDays;
+
+    private Float realDays;
+
+    private Float absentTotalMoney;
+
     private List<Absence> absences;
 }
 

@@ -13,4 +13,6 @@ public class ApplyLeaveParam {
     private String absentEndTime;
 
     private Integer absentDays;
+
+    private String absentDetail;
 }

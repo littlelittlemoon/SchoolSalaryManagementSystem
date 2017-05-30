@@ -9,4 +9,10 @@ public class AbsentInfoQueryParam extends PageParam{
     private String departmentId;
 
     private String searchCondition;
+
+    private String id;
+
+    private String time;
+
+    private String state;
 }

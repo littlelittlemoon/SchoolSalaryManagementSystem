@@ -64,4 +64,43 @@
             c.department_name=#{searchCondition})
         </if>
     </select>
+
+    <select id="getAbsentMoney" resultMap="HrAbsentMoney">
+        SELECT
+        a.staff_id,
+        a.staff_name,
+        b.check_time,
+        c.department_name,
+        b.due_days - b.actual_days absentDays,
+        b.money
+        FROM t_staff_info a, t_absent_money b, t_department c
+        WHERE a.staff_id = b.staff_id AND a.department_id = c.department_id
+        <if test="departmentId!=null and departmentId !=''">
+            AND a.department_id=#{departmentId}
+        </if>
+        <if test="time!=null and time !=''">
+            AND b.check_time like concat(concat('%',#{time}),'%')
+        </if>
+        <if test="code==0">
+            AND (b.absent_money_state='ptf' or b.absent_money_state='f_pass')
+        </if>
+        <if test="code==1">
+            AND b.absent_money_state='done'
+        </if>
+        <if test="searchCondition!=null and searchCondition!=''">
+            AND (a.staff_id=#{searchCondition} OR a.staff_name=#{searchCondition} OR
+            c.department_name=#{searchCondition})
+        </if>
+    </select>
+
+    <update id="sendToBank" parameterType="string">
+        UPDATE t_absent_money
+            SET absent_money_state = replace(absent_money_state, #{oriState}, #{toState})
+            WHERE
+              staff_id IN (SELECT staff_id
+                           FROM t_staff_info
+                           WHERE t_staff_info.department_id = #{departmentId})
+              AND date_format(t_absent_money.check_time, '%Y-%m') = date_format(now(), '%Y-%m')
+              AND t_absent_money.absent_money_state = #{condition}
+    </update>
 </mapper>

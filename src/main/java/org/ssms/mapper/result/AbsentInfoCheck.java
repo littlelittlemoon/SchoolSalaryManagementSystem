@@ -19,4 +19,8 @@ public class AbsentInfoCheck {
     private String absentCheckTime;
 
     private Integer absentDays;
+
+    private String absentDetail;
+
+    private Float absentMoney;
 }

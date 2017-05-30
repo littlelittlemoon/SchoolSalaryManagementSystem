@@ -7,6 +7,7 @@ import org.ssms.entity.viewentity.StaffInfoView;
 import org.ssms.web.param.StaffInfoAddParam;
 import org.ssms.web.param.StaffQueryParam;
 import org.ssms.web.result.BaseResponse;
+import org.ssms.web.result.StaffInfoResult;
 
 import java.text.ParseException;
 import java.util.List;
@@ -24,5 +25,11 @@ public interface IStaffInfoService extends IService<StaffInfo> {
 
     BaseResponse addStaff(StaffInfoAddParam param);
 
-    BaseResponse<List<StaffInfoView>> staffList(StaffQueryParam param);
+    BaseResponse<StaffInfoResult> staffList(StaffQueryParam param);
+
+    BaseResponse<StaffInfoView> getStaff(String staffId);
+
+    BaseResponse changePwd(String staffId,String oldPwd,String newPwd);
+
+    BaseResponse updateStaffInfo(StaffInfo staffInfo);
 }

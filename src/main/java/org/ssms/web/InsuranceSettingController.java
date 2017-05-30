@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.ssms.entity.InsuranceSetting;
 import org.ssms.service.IInsuranceSettingService;
+import org.ssms.utils.UUIDGenerator;
 import org.ssms.web.result.BaseResponse;
 
 import javax.annotation.Resource;
@@ -19,7 +21,7 @@ import javax.annotation.Resource;
  * @author TanKaiYue
  * @since 2017-05-28
  */
-@Controller
+@RestController
 @RequestMapping("/insuranceSetting")
 public class InsuranceSettingController {
     @Resource
@@ -27,8 +29,7 @@ public class InsuranceSettingController {
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list() {
-        BaseResponse response = new BaseResponse();
-        response.setData(insuranceSettingService.selectList(new EntityWrapper<>()));
+        BaseResponse response = insuranceSettingService.list();
 
         return JSON.toJSONString(response);
     }
@@ -36,6 +37,7 @@ public class InsuranceSettingController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add(InsuranceSetting insuranceSetting) {
         BaseResponse response = new BaseResponse();
+        insuranceSetting.setId(UUIDGenerator.generatorId());
         insuranceSettingService.insert(insuranceSetting);
 
         return JSON.toJSONString(response);

@@ -25,4 +25,6 @@ public interface ITaxService extends IService<Tax> {
     BaseResponse updateTaxMoney(String staffId, String taxTime, Float taxMoney);
 
     BaseResponse sendToFs(String departmentId);
+
+    Tax getTax(String staffId, String time);
 }

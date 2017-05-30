@@ -13,6 +13,7 @@
         <result column="absent_check_time" property="absentCheckTime"/>
         <result column="absent_state" property="absentState"/>
         <result column="absent_money" property="absentMoney" />
+        <result column="absent_detail" property="absentDetail" />
     </resultMap>
 
     <resultMap id="CheckResultMap" type="org.ssms.mapper.result.AbsentInfoCheck">
@@ -24,10 +25,12 @@
         <result column="absent_end_time" property="absentEndTime"/>
         <result column="absent_check_time" property="absentCheckTime"/>
         <result column="absent_days" property="absentDays"/>
+        <result column="absent_detail" property="absentDetail"/>
+        <result column="absent_money" property="absentMoney"/>
     </resultMap>
 
     <select id="getAbsentInfoCheck" resultMap="CheckResultMap">
-        SELECT
+         SELECT
         a.staff_id,
         staff_name,
         absent_apply_time,
@@ -35,7 +38,9 @@
         absent_start_time,
         absent_end_time,
         absent_check_time,
-        absent_days
+        absent_days,
+        absent_detail,
+        absent_money
         FROM
         t_absent_info a, t_staff_info b
         WHERE a.staff_id = b.staff_id
@@ -52,13 +57,20 @@
         FROM
           t_absent_info a, t_staff_info b
         WHERE a.staff_id = b.staff_id
-              AND department_id IN (SELECT department_id
-                                    FROM t_staff_info
-                                    WHERE staff_id = #{staffId})
-              AND absent_state = 'd_pass'
-              AND date_format(absent_check_time,'%Y-%m')=date_format(now(),'%Y-%m')
-        <if test="searchCondition!=null">
-            AND (a.staff_id=#{searchCondition} OR staff_name=#{searchCondition})
+        <if test="staffId!=null and staffId!=''">
+          AND department_id IN (SELECT department_id
+          FROM t_staff_info
+          WHERE staff_id = #{staffId})
+        </if>
+          AND absent_state = 'd_pass'
+        <if test="searchCondition!=null and searchCondition!=''">
+          AND (a.staff_id=#{searchCondition} OR staff_name=#{searchCondition})
+        </if>
+        <if test="time!=null and time!=''">
+            AND date_format(absent_check_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="id!=null and id !='' ">
+            AND a.staff_id = #{id}
         </if>
     </select>
 
@@ -93,7 +105,7 @@
         AND absent_state = 'dtp'
         AND date_format(absent_check_time,'%Y-%m')=date_format(now(),'%Y-%m')
     </select>
-    
+
     <update id="updateStatebatch">
         UPDATE t_absent_info
         SET absent_state = 'dtp'

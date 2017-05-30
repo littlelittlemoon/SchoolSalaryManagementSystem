@@ -12,11 +12,9 @@ import org.springframework.stereotype.Service;
 import org.ssms.entity.AbsentMoney;
 import org.ssms.entity.Insurance;
 import org.ssms.entity.Tax;
+import org.ssms.entity.TaxSetting;
 import org.ssms.entity.viewentity.StaffInfoView;
-import org.ssms.mapper.AbsentMoneyMapper;
-import org.ssms.mapper.InsuranceMapper;
-import org.ssms.mapper.StaffInfoMapper;
-import org.ssms.mapper.TaxMapper;
+import org.ssms.mapper.*;
 import org.ssms.mapper.result.HrAbsentMoney;
 import org.ssms.service.IAbsentMoneyService;
 import org.ssms.service.IInsuranceService;
@@ -56,6 +54,8 @@ public class TaxServiceImpl extends ServiceImpl<TaxMapper, Tax> implements ITaxS
     private InsuranceMapper insuranceMapper;
     @Resource
     private AbsentMoneyMapper absentMoneyMapper;
+    @Resource
+    private TaxSettingMapper taxSettingMapper;
 
     @Override
     public BaseResponse countTaxMoney(List<String> staffIds) {
@@ -65,10 +65,16 @@ public class TaxServiceImpl extends ServiceImpl<TaxMapper, Tax> implements ITaxS
                 //查询视图中的信息，为了算缴纳基数
                 StaffQueryParam staffQueryParam = new StaffQueryParam();
                 staffQueryParam.setStaffInfoSearch(staffId);
-                StaffInfoView staffInfoView = staffInfoMapper.selectStaffView(staffQueryParam).get(0);//调用模糊搜索的方法
+                StaffInfoView staffInfoView = staffInfoMapper.selectStaffView(new Page<>(), staffQueryParam).get(0);//调用模糊搜索的方法
                 AbsentMoney absentMoney = absentMoneyService.getAbsentMoney(staffId, DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
                 Insurance insurance = insuranceService.getInsurance(staffId, DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
-                Map<String, BigDecimal> map = MoneyUtils.countTaxMoneyDetail(staffInfoView, absentMoney, insurance);
+
+                int baseMoney = MoneyUtils.getTaxBaseMoney(staffInfoView, absentMoney, insurance);//计算缴纳基数
+                EntityWrapper<TaxSetting> entityWrapper = new EntityWrapper<>();
+                entityWrapper.lt("min_num", baseMoney);//小于条件
+                entityWrapper.ge("max_num", baseMoney);//大于条件
+                TaxSetting taxSetting = taxSettingMapper.selectList(entityWrapper).get(0);
+                Map<String, BigDecimal> map = MoneyUtils.countTaxMoneyDetail(staffInfoView, absentMoney, insurance, taxSetting, baseMoney);
                 Tax tax = new Tax();
                 tax.setStaffId(staffId);
                 tax.setCheckTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
@@ -133,7 +139,7 @@ public class TaxServiceImpl extends ServiceImpl<TaxMapper, Tax> implements ITaxS
         return response;
     }
 
-    private Tax getTax(String staffId, String time) {
+    public Tax getTax(String staffId, String time) {
         EntityWrapper<Tax> ew = new EntityWrapper<>();
         ew.where("staff_id={0}", staffId);
         ew.and("tax_state={0}", "ptf");
