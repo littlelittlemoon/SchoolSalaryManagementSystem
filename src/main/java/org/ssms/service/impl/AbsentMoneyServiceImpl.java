@@ -51,11 +51,13 @@ public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, Absen
         BaseResponse response = new BaseResponse();
 
         for (String id : staffIds) {
+            //查询这个人的缺勤信息
             EntityWrapper<AbsentInfo> ew = new EntityWrapper<>();
             ew.where("staff_id={0}", id);
             ew.and("absent_state={0}", "dtp");
             ew.and("date_format(absent_check_time,'%Y-%m')=date_format(now(),'%Y-%m')");
             List<AbsentInfo> absentInfos = absentInfoMapper.selectList(ew);
+            //查询这个人的视图信息
             StaffQueryParam staffQueryParam = new StaffQueryParam();
             staffQueryParam.setStaffInfoSearch(id);
             List<StaffInfoView> staffInfoViews = staffInfoMapper.selectStaffView(new Page<>(), staffQueryParam);//调用模糊搜索的方法

@@ -83,7 +83,7 @@
                 AND department_id = #{departmentId}
                 AND absent_state = 'dtp'
                 AND date_format(absent_check_time,'%Y-%m')=date_format(now(),'%Y-%m')
-        <if test="searchCondition!=null">
+        <if test="searchCondition!=null and searchCondition!=''">
             AND (a.staff_id=#{searchCondition} OR staff_name=#{searchCondition})
         </if>
     </select>

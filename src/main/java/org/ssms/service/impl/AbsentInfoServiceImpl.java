@@ -10,6 +10,7 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.ssms.entity.AbsentInfo;
+import org.ssms.entity.StaffInfo;
 import org.ssms.mapper.AbsentInfoMapper;
 import org.ssms.mapper.DepartmentMapper;
 import org.ssms.mapper.result.AbsentInfoCheck;
@@ -250,8 +251,11 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
         page.setSize(param.getPageSize());
 
         try {
-            if (StringUtils.isEmpty(param.getSearchCondition())) {
-                param.setSearchCondition(null);
+            EntityWrapper<StaffInfo> ew = new EntityWrapper<>();
+            ew.where("department_id={0}", param.getDepartmentId());
+            if (StringUtils.isNotEmpty(param.getSearchCondition())) {
+                ew.andNew("staff_id={0}", param.getSearchCondition());
+                ew.or("staff_name={0}", param.getSearchCondition());
             }
             List<String> staffIds = baseMapper.getStaffAbsentInfoPageByDep(page, param.getDepartmentId(), param.getSearchCondition());//自定义SQL多表查询，获得分页信息
             page.setRecords(staffIds);
@@ -269,7 +273,7 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
                 StaffAbsentInfoDetail staffAbsentInfoDetail = new StaffAbsentInfoDetail();
                 staffAbsentInfoDetail.setStaffId(staffId);  //实例化员工请假详情对象
                 staffAbsentInfoDetails.add(staffAbsentInfoDetail);
-                staffAbsentInfoDetail.setAbsences(new ArrayList<Absence>(5));
+                staffAbsentInfoDetail.setAbsences(new ArrayList<>(5));
                 staffAbsentInfoDetail.setAbsentDays(0);
                 staffAbsentInfoDetail.setDepartment(departmentMapper.selectById(param.getDepartmentId()).getDepartmentName());
 
