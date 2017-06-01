@@ -16,6 +16,7 @@ public class SimpleCORSFilter implements Filter {
 
     }
 
+    //给返回请求添加跨域的header
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;

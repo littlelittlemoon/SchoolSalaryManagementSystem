@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="1000 seconds">
+	<!-- Output to Console -->
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} %level %c:%L - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	<appender name="DEBUGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<MaxHistory>60</MaxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>200MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+	<appender name="INFOFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<MaxHistory>90</MaxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>200MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<appender name="ERRORFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<MaxHistory>120</MaxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>200MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+	<!-- 打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和  OFF 默认是DEBUG -->
+	<root level="WARN">
+		<appender-ref ref="Console" />
+		<appender-ref ref="DEBUGFILE"/>
+		<appender-ref ref="INFOFILE"/>
+		<appender-ref ref="ERRORFILE"/>
+	</root>
+	<logger name="org.ssms" level="DEBUG" />
+	<logger name="org.springframework" level="WARN" />
+</configuration>

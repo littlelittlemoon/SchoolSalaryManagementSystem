@@ -1,0 +1,3 @@
+2017-04-27 23:41:45 [org.springframework.boot.StartupInfoLogger:48] - Starting Application on DESKTOP-PCHUNPA with PID 12884 (G:\tantan\IntelliJIDEA\SchoolSalaryManagementSystem\target\classes started by 11651 in G:\tantan\IntelliJIDEA\SchoolSalaryManagementSystem)
+2017-04-27 23:41:45 [org.springframework.boot.SpringApplication:637] - No active profile set, falling back to default profiles: default
+2017-04-27 23:41:56 [org.springframework.boot.StartupInfoLogger:57] - Started Application in 12.138 seconds (JVM running for 13.18)

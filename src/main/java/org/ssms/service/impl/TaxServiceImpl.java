@@ -82,7 +82,7 @@ public class TaxServiceImpl extends ServiceImpl<TaxMapper, Tax> implements ITaxS
                 tax.setTaxRate(map.get("taxRate").floatValue());
                 tax.setTaxTaxable(map.get("baseMoney").floatValue());
                 tax.setTaxTaxMoney(map.get("tax").floatValue());
-                tax.setTaxState("ptf");
+                tax.setTaxState("p_pass");
                 baseMapper.insert(tax);
 
                 insurance.setInsuranceState("ptf");
@@ -142,7 +142,7 @@ public class TaxServiceImpl extends ServiceImpl<TaxMapper, Tax> implements ITaxS
     public Tax getTax(String staffId, String time) {
         EntityWrapper<Tax> ew = new EntityWrapper<>();
         ew.where("staff_id={0}", staffId);
-        ew.and("tax_state={0}", "ptf");
+        ew.and("tax_state={0}", "p_pass");
         ew.like("check_time", time.substring(0, 7));
         List<Tax> taxes = this.selectList(ew);
         if (CollectionUtils.isEmpty(taxes)) {

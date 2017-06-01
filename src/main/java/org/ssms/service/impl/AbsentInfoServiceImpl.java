@@ -257,6 +257,7 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
                 ew.andNew("staff_id={0}", param.getSearchCondition());
                 ew.or("staff_name={0}", param.getSearchCondition());
             }
+            //获取某部门所有员工ID
             List<String> staffIds = baseMapper.getStaffAbsentInfoPageByDep(page, param.getDepartmentId(), param.getSearchCondition());//自定义SQL多表查询，获得分页信息
             page.setRecords(staffIds);
             staffAbsentInfoResult.setCurrentPage(page.getCurrent());
@@ -270,8 +271,8 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
             List<StaffAbsentInfoDetail> staffAbsentInfoDetails = new ArrayList<>();
             staffAbsentInfoResult.setStaffAbsentInfoDetails(staffAbsentInfoDetails);
             for (String staffId : staffIds) {
-                StaffAbsentInfoDetail staffAbsentInfoDetail = new StaffAbsentInfoDetail();
-                staffAbsentInfoDetail.setStaffId(staffId);  //实例化员工请假详情对象
+                StaffAbsentInfoDetail staffAbsentInfoDetail = new StaffAbsentInfoDetail();//实例化员工请假详情对象
+                staffAbsentInfoDetail.setStaffId(staffId);
                 staffAbsentInfoDetails.add(staffAbsentInfoDetail);
                 staffAbsentInfoDetail.setAbsences(new ArrayList<>(5));
                 staffAbsentInfoDetail.setAbsentDays(0);

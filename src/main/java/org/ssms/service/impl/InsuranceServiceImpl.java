@@ -121,11 +121,11 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
                 absentMoney.setAbsentMoneyState("ptf");
                 absentMoneyService.updateAbsentMoney(absentMoney);
 
-                EntityWrapper<Insurance> ew = new EntityWrapper<>();
-                ew.where("staff_id={0}", staffId);
-                ew.and("insurance_time={0}", insurance.getInsuranceTime());
-                insurance.setInsuranceState("ptf");
-                baseMapper.update(insurance, ew);
+//                EntityWrapper<Insurance> ew = new EntityWrapper<>();
+//                ew.where("staff_id={0}", staffId);
+//                ew.and("insurance_time={0}", insurance.getInsuranceTime());
+//                insurance.setInsuranceState("ptf");
+//                baseMapper.update(insurance, ew);
             }
         } catch (Exception e) {
             log.error("", e);

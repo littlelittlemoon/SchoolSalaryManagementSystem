@@ -1,0 +1,9 @@
+2017-04-28 09:31:46 [org.springframework.boot.StartupInfoLogger:48] - Starting Application on DESKTOP-PCHUNPA with PID 12144 (G:\tantan\IntelliJIDEA\SchoolSalaryManagementSystem\target\classes started by 11651 in G:\tantan\IntelliJIDEA\SchoolSalaryManagementSystem)
+2017-04-28 09:31:46 [org.springframework.boot.SpringApplication:637] - No active profile set, falling back to default profiles: default
+2017-04-28 09:31:54 [org.springframework.boot.StartupInfoLogger:57] - Started Application in 8.284 seconds (JVM running for 10.822)
+2017-04-28 09:35:41 [org.springframework.boot.StartupInfoLogger:48] - Starting Application on DESKTOP-PCHUNPA with PID 11536 (G:\tantan\IntelliJIDEA\SchoolSalaryManagementSystem\target\classes started by 11651 in G:\tantan\IntelliJIDEA\SchoolSalaryManagementSystem)
+2017-04-28 09:35:41 [org.springframework.boot.SpringApplication:637] - No active profile set, falling back to default profiles: default
+2017-04-28 09:35:49 [org.springframework.boot.StartupInfoLogger:57] - Started Application in 8.969 seconds (JVM running for 10.112)
+2017-04-28 09:36:22 [org.springframework.boot.StartupInfoLogger:48] - Starting Application on DESKTOP-PCHUNPA with PID 984 (G:\tantan\IntelliJIDEA\SchoolSalaryManagementSystem\target\classes started by 11651 in G:\tantan\IntelliJIDEA\SchoolSalaryManagementSystem)
+2017-04-28 09:36:22 [org.springframework.boot.SpringApplication:637] - No active profile set, falling back to default profiles: default
+2017-04-28 09:36:31 [org.springframework.boot.StartupInfoLogger:57] - Started Application in 9.232 seconds (JVM running for 10.591)

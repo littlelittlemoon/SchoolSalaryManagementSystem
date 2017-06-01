@@ -48,6 +48,7 @@ public class AbsenceSettingServiceImpl extends ServiceImpl<AbsenceSettingMapper,
 
         List<AbsenceSetting> absenceSettings = baseMapper.selectList(ew);
 
+        //通过stream遍历查询结果，取出其中的absentType，返回成List<String>
         response.setData(absenceSettings.stream().map(AbsenceSetting::getAbsentType).collect(Collectors.toList()));
 
         return response;

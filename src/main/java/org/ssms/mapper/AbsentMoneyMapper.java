@@ -35,6 +35,7 @@ public interface AbsentMoneyMapper extends BaseMapper<AbsentMoney> {
                                        @Param("searchCondition") String searchCondition,
                                        @Param("time") String time, @Param("code") Integer code);
 
+    //
     void sendToBank(@Param("departmentId") String departmentId, @Param("oriState") String oriState,
                     @Param("toState") String toState, @Param("condition") String condition);
 }

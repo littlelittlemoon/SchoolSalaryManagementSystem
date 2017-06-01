@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ssms.mapper.InsuranceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.ssms.entity.Insurance">
+        <id column="staff_id" property="staffId"/>
+        <result column="insurance_medical" property="insuranceMedical"/>
+        <result column="insurance_aged" property="insuranceAged"/>
+        <result column="insurance_unemp" property="insuranceUnemp"/>
+        <result column="insurance_accu" property="insuranceAccu"/>
+        <result column="insurance_time" property="insuranceTime"/>
+        <result column="insurance_state" property="insuranceState"/>
+        <result column="insurance_total" property="insuranceTotal"/>
+        <result column="insurance_base" property="insuranceBase"/>
+    </resultMap>
+
+    <update id="sendToBank" parameterType="string">
+        UPDATE t_insurance
+            SET insurance_state = replace(insurance_state, #{oriState}, #{toState})
+            WHERE
+              staff_id IN (SELECT staff_id
+                           FROM t_staff_info
+                           WHERE t_staff_info.department_id = #{departmentId})
+              AND date_format(t_insurance.insurance_time, '%Y-%m') = date_format(now(), '%Y-%m')
+              AND t_insurance.insurance_state = #{condition}
+    </update>
+
+</mapper>
