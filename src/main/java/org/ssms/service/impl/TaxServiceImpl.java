@@ -57,20 +57,29 @@ public class TaxServiceImpl extends ServiceImpl<TaxMapper, Tax> implements ITaxS
     @Resource
     private TaxSettingMapper taxSettingMapper;
 
+    /**
+     * 计算交税金额
+     *
+     * @param staffIds
+     * @return
+     */
     @Override
     public BaseResponse countTaxMoney(List<String> staffIds) {
         BaseResponse response = new BaseResponse();
         try {
             for (String staffId : staffIds) {
-                //查询视图中的信息，为了算缴纳基数
+                //查询staffIds里面的所有职工的基本工资、职务工资、职称工资、缺勤扣款、五险一金扣款，为计算交税基数
                 StaffQueryParam staffQueryParam = new StaffQueryParam();
                 staffQueryParam.setStaffInfoSearch(staffId);
-                StaffInfoView staffInfoView = staffInfoMapper.selectStaffView(new Page<>(), staffQueryParam).get(0);//调用模糊搜索的方法
+                //调用条件搜索的方法
+                StaffInfoView staffInfoView = staffInfoMapper.selectStaffView(new Page<>(), staffQueryParam).get(0);
                 AbsentMoney absentMoney = absentMoneyService.getAbsentMoney(staffId, DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
                 Insurance insurance = insuranceService.getInsurance(staffId, DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
 
-                int baseMoney = MoneyUtils.getTaxBaseMoney(staffInfoView, absentMoney, insurance);//计算缴纳基数
+                //计算缴纳基数
+                int baseMoney = MoneyUtils.getTaxBaseMoney(staffInfoView, absentMoney, insurance);
                 EntityWrapper<TaxSetting> entityWrapper = new EntityWrapper<>();
+                //交税基数所处范围（min_num < baseMoney < max_num）
                 entityWrapper.lt("min_num", baseMoney);//小于条件
                 entityWrapper.ge("max_num", baseMoney);//大于条件
                 TaxSetting taxSetting = taxSettingMapper.selectList(entityWrapper).get(0);
@@ -113,14 +122,6 @@ public class TaxServiceImpl extends ServiceImpl<TaxMapper, Tax> implements ITaxS
 
         List<TaxInfo> taxInfos = new ArrayList<>();
         for (HrAbsentMoney hrAbsentMoney : page.getRecords()) {
-//            EntityWrapper<Tax> ew = new EntityWrapper<>();
-//            ew.where("staff_id={0}", hrAbsentMoney.getStaffId());
-//            ew.and("tax_state={0}", "ptf");
-//            ew.like("check_time", DateFormatUtils.format(new Date(), "yyyy-MM-dd").substring(0, 7));
-//            List<Tax> taxes = this.selectList(ew);
-//            if (CollectionUtils.isEmpty(taxes)) {
-//                continue;
-//            }
             Tax tax = getTax(hrAbsentMoney.getStaffId(), DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
             if (tax == null) {
                 continue;

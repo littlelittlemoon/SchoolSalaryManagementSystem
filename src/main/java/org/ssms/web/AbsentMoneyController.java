@@ -26,16 +26,11 @@ public class AbsentMoneyController {
     @Resource
     private IAbsentMoneyService absentMoneyService;
 
-    @RequestMapping(value = "countAbsentMoney", method = RequestMethod.POST)
-    public String countAbsentMoney(String staffIds) {
-        List<String> ids = JSON.parseArray(staffIds, String.class);
-        BaseResponse response = absentMoneyService.countAbsentMoney(ids);
-
-        return JSON.toJSONString(response);
-    }
-
     /**
-     * hr获取待计算缺勤金的列表
+     * 人事部门获取待计算缺勤信息
+     *
+     * @param param
+     * @return
      */
     @RequestMapping(value = "absentInfoResult", method = RequestMethod.GET)
     public String absentInfoResult(AbsentMoneyQueryParam param) {
@@ -45,7 +40,22 @@ public class AbsentMoneyController {
     }
 
     /**
-     * hr获取待计算缺勤金的列表
+     * 计算缺勤扣款
+     * @param staffIds
+     * @return
+     */
+    @RequestMapping(value = "countAbsentMoney", method = RequestMethod.POST)
+    public String countAbsentMoney(String staffIds) {
+        List<String> ids = JSON.parseArray(staffIds, String.class);
+        BaseResponse response = absentMoneyService.countAbsentMoney(ids);
+
+        return JSON.toJSONString(response);
+    }
+
+    /**
+     * 人事部门获取缺勤金计算结果
+     * @param param
+     * @return
      */
     @RequestMapping(value = "absentMoneyResult", method = RequestMethod.GET)
     public String absentMoneyResult(AbsentMoneyQueryParam param) {
@@ -54,6 +64,13 @@ public class AbsentMoneyController {
         return JSON.toJSONString(response);
     }
 
+    /**
+     * 人事部门调整缺勤计算结果
+     * @param staffId
+     * @param startTime
+     * @param money
+     * @return
+     */
     @RequestMapping(value = "updateAbsentMoney", method = RequestMethod.POST)
     public String updateAbsentMoney(String staffId, String startTime, Double money)  {
         BaseResponse response = absentMoneyService.updateAbsentInfo(staffId, startTime, money);

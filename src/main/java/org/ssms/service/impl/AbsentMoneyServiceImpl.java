@@ -46,42 +46,64 @@ public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, Absen
     @Resource
     private StaffInfoMapper staffInfoMapper;
 
+    /**
+     * 计算缺勤扣款
+     * @param staffIds
+     * @return
+     */
     @Override
     public BaseResponse countAbsentMoney(List<String> staffIds) {
         BaseResponse response = new BaseResponse();
 
         for (String id : staffIds) {
-            //查询这个人的缺勤信息
+            /**
+             * 查询该员工的缺勤信息
+             */
             EntityWrapper<AbsentInfo> ew = new EntityWrapper<>();
             ew.where("staff_id={0}", id);
             ew.and("absent_state={0}", "dtp");
             ew.and("date_format(absent_check_time,'%Y-%m')=date_format(now(),'%Y-%m')");
             List<AbsentInfo> absentInfos = absentInfoMapper.selectList(ew);
-            //查询这个人的视图信息
+
+            /**
+             *通过ID查询该员工的基本信息
+             */
             StaffQueryParam staffQueryParam = new StaffQueryParam();
             staffQueryParam.setStaffInfoSearch(id);
-            List<StaffInfoView> staffInfoViews = staffInfoMapper.selectStaffView(new Page<>(), staffQueryParam);//调用模糊搜索的方法
+            List<StaffInfoView> staffInfoViews = staffInfoMapper.selectStaffView(new Page<>(), staffQueryParam);
 
-            int actualDay = absentInfos.stream().mapToInt(a -> a.getAbsentDays()).sum();
+            int absentDay = absentInfos.stream().mapToInt(a -> a.getAbsentDays()).sum();
             AbsentMoney absentMoney = new AbsentMoney();
             absentMoney.setAbsentMoneyState("p_pass");
-            absentMoney.setActualDays(21 - actualDay);
+            absentMoney.setActualDays(21 - absentDay);
             absentMoney.setCheckTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
             absentMoney.setDueDays(21);
             absentMoney.setStaffId(id);
+
             StaffInfoView staffInfoView = staffInfoViews.get(0);
             BigDecimal totalAbsentMoney = new BigDecimal(0);
             for (AbsentInfo absentInfo : absentInfos) {
+                /**
+                 * 计算该员工的缺勤扣款细则
+                 */
                 EntityWrapper<AbsenceSetting> entityWrapper = new EntityWrapper<>();
                 entityWrapper.where("absent_type={0}", absentInfo.getAbsentReason());
+                entityWrapper.and("status={0}", "enable");
+
                 AbsenceSetting absenceSetting = absenceSettingMapper.selectList(entityWrapper).get(0);
                 BigDecimal temp = MoneyUtils.countAbsentMoneyDetail(absenceSetting,
                         absentInfo, staffInfoView);
                 absentInfo.setAbsentMoney(temp.doubleValue());
+                /**
+                 * 计算该员工的缺勤扣款总金额
+                 */
                 totalAbsentMoney = totalAbsentMoney.add(temp);
             }
             absentMoney.setMoney(totalAbsentMoney.doubleValue());
             boolean res = insert(absentMoney);
+            /**
+             * 缺勤金计算完成后，更新已经计算过的缺勤信息状态
+             */
             if (res) {
                 for (AbsentInfo absentInfo : absentInfos) {
                     absentInfo.setAbsentState("done");
@@ -96,10 +118,12 @@ public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, Absen
         return response;
     }
 
-    @Override
     /**
-     * hr获取以计算缺勤金信息
+     * 人事部门获取缺勤信息
+     * @param param
+     * @return
      */
+    @Override
     public BaseResponse<HrAbsentInfoResult> getAbsentInfoResult(AbsentMoneyQueryParam param) {
         BaseResponse<HrAbsentInfoResult> response = new BaseResponse<>();
         HrAbsentInfoResult result = new HrAbsentInfoResult();
@@ -127,6 +151,11 @@ public class AbsentMoneyServiceImpl extends ServiceImpl<AbsentMoneyMapper, Absen
         return response;
     }
 
+    /**
+     * 人事部门获取缺勤扣款计算结果
+     * @param param
+     * @return
+     */
     @Override
     public BaseResponse<HrAbsentMoneyResult> getAbsentMoneyResult(AbsentMoneyQueryParam param) {
         BaseResponse<HrAbsentMoneyResult> response = new BaseResponse<>();

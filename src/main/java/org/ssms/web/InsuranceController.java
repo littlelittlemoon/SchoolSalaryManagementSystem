@@ -25,6 +25,11 @@ public class InsuranceController {
     @Resource
     private IInsuranceService insuranceService;
 
+    /***
+     * 计算五险一金
+     * @param staffIds
+     * @return
+     */
     @RequestMapping(value = "countInsuranceMoney", method = RequestMethod.POST)
     public String countInsuranceMoney(String staffIds) {
         List<String> ids = JSON.parseArray(staffIds, String.class);
@@ -33,6 +38,11 @@ public class InsuranceController {
         return JSON.toJSONString(response);
     }
 
+    /**
+     * 获取五险一金计算结果
+     * @param param
+     * @return
+     */
     @RequestMapping(value = "insuranceMoneyResult", method = RequestMethod.GET)
     public String insuranceMoneyResult(InsuranceQueryParam param) {
         BaseResponse response = insuranceService.insuranceInfoResult(param);
@@ -40,6 +50,16 @@ public class InsuranceController {
         return JSON.toJSONString(response);
     }
 
+    /**
+     * 调整五险一金计算结果
+     * @param staffId
+     * @param insuranceTime
+     * @param medical
+     * @param unemp
+     * @param accu
+     * @param aged
+     * @return
+     */
     @RequestMapping(value = "updateInsuranMoney", method = RequestMethod.POST)
     public String updateInsuranMoney(String staffId, String insuranceTime, Float medical, Float unemp, Float accu, Float aged) {
         BaseResponse response = insuranceService.updateInsuranMoney(staffId, insuranceTime, medical, unemp, accu, aged);

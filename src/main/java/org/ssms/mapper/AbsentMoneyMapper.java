@@ -26,8 +26,22 @@ public interface AbsentMoneyMapper extends BaseMapper<AbsentMoney> {
      * @param searchCondition
      * @return
      */
+    /**
+     * 人事部门获取待计算缺勤金的员工缺勤信息
+     * @param pagination
+     * @param searchCondition
+     * @return
+     */
     List<HrAbsentInfo> getHrAbsentInfo(Pagination pagination, @Param("searchCondition") String searchCondition);
 
+    /**
+     * 人事部门获取计算后的缺勤扣款
+     * @param pagination
+     * @param searchCondition
+     * @param departmentId
+     * @param absentMoneyState
+     * @return
+     */
     List<HrAbsentMoney> getHrAbsentMoney(Pagination pagination, @Param("searchCondition") String searchCondition,
                                          @Param("departmentId") String departmentId, @Param("absentMoneyState") String absentMoneyState);
 

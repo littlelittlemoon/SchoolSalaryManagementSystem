@@ -55,40 +55,12 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
     @Resource
     private InsuranceSettingMapper insuranceSettingMapper;
 
-    @Override
-    public BaseResponse<InsuranceInfoResult> insuranceInfoResult(InsuranceQueryParam param) {
-        BaseResponse<InsuranceInfoResult> response = new BaseResponse<>();
-        InsuranceInfoResult insuranceInfoResult = new InsuranceInfoResult();
-        response.setData(insuranceInfoResult);
 
-        Page<HrAbsentMoney> page = new Page();
-        page.setCurrent(param.getCurrentPage());
-        page.setSize(param.getPageSize());
-        List<HrAbsentMoney> hrAbsentMoneyList = absentMoneyMapper.getHrAbsentMoney(page, param.getSearchCondition(), param.getDepartmentId(), "ptf");//查询获取部门那些信息
-        page.setRecords(hrAbsentMoneyList);
-
-        List<InsuranceInfo> insuranceInfos = new ArrayList<>();
-        for (HrAbsentMoney hrAbsentMoney : page.getRecords()) {
-            EntityWrapper<Insurance> ew = new EntityWrapper<>();
-            ew.where("staff_id={0}", hrAbsentMoney.getStaffId());
-            ew.and("insurance_state={0}", "p_pass");
-            ew.like("insurance_time", DateFormatUtils.format(new Date(), "yyyy-MM-dd").substring(0, 7));
-            List<Insurance> insurances = this.selectList(ew);
-            if (CollectionUtils.isEmpty(insurances)) {
-                continue;
-            }
-            Insurance insurance = insurances.get(0);
-            InsuranceInfo insuranceInfo = new InsuranceInfo();
-            insuranceInfos.add(insuranceInfo);
-            BeanUtils.copyProperties(hrAbsentMoney, insuranceInfo);
-            BeanUtils.copyProperties(insurance, insuranceInfo);
-            insuranceInfo.setCheckTime(insurance.getInsuranceTime());
-        }
-        insuranceInfoResult.setInsuranceInfoList(insuranceInfos);
-
-        return response;
-    }
-
+    /**
+     * 计算五险一金
+     * @param staffIds
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse countInsuranceMoney(List<String> staffIds) {
@@ -120,12 +92,6 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
 
                 absentMoney.setAbsentMoneyState("ptf");
                 absentMoneyService.updateAbsentMoney(absentMoney);
-
-//                EntityWrapper<Insurance> ew = new EntityWrapper<>();
-//                ew.where("staff_id={0}", staffId);
-//                ew.and("insurance_time={0}", insurance.getInsuranceTime());
-//                insurance.setInsuranceState("ptf");
-//                baseMapper.update(insurance, ew);
             }
         } catch (Exception e) {
             log.error("", e);
@@ -135,6 +101,64 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
         return response;
     }
 
+    /***
+     * 获取五险一金计算结果
+     * @param param
+     * @return
+     */
+    @Override
+    public BaseResponse<InsuranceInfoResult> insuranceInfoResult(InsuranceQueryParam param) {
+        BaseResponse<InsuranceInfoResult> response = new BaseResponse<>();
+        InsuranceInfoResult insuranceInfoResult = new InsuranceInfoResult();
+        response.setData(insuranceInfoResult);
+
+        /**
+         * 分页
+         */
+        Page<HrAbsentMoney> page = new Page();
+        page.setCurrent(param.getCurrentPage());
+        page.setSize(param.getPageSize());
+        List<HrAbsentMoney> hrAbsentMoneyList = absentMoneyMapper.getHrAbsentMoney(page, param.getSearchCondition(), param.getDepartmentId(), "ptf");//查询获取部门那些信息
+        page.setRecords(hrAbsentMoneyList);
+
+        List<InsuranceInfo> insuranceInfos = new ArrayList<>();
+
+        /**
+         * 调用之前的获取缺勤金信息的接口获取员工ID
+         * 通过ID获取五险一金查询结果
+         */
+        for (HrAbsentMoney hrAbsentMoney : page.getRecords()) {
+            EntityWrapper<Insurance> ew = new EntityWrapper<>();
+            ew.where("staff_id={0}", hrAbsentMoney.getStaffId());
+            ew.and("insurance_state={0}", "p_pass");
+            ew.like("insurance_time", DateFormatUtils.format(new Date(), "yyyy-MM-dd").substring(0, 7));
+            List<Insurance> insurances = this.selectList(ew);
+            if (CollectionUtils.isEmpty(insurances)) {
+                continue;
+            }
+            Insurance insurance = insurances.get(0);
+            InsuranceInfo insuranceInfo = new InsuranceInfo();
+            insuranceInfos.add(insuranceInfo);
+            BeanUtils.copyProperties(hrAbsentMoney, insuranceInfo);
+            BeanUtils.copyProperties(insurance, insuranceInfo);
+            insuranceInfo.setCheckTime(insurance.getInsuranceTime());
+        }
+        insuranceInfoResult.setInsuranceInfoList(insuranceInfos);
+
+        return response;
+    }
+
+
+    /**
+     * 调整五险一金计算结果
+     * @param staffId
+     * @param startTime
+     * @param medical
+     * @param unemp
+     * @param accu
+     * @param aged
+     * @return
+     */
     @Override
     public BaseResponse updateInsuranMoney(String staffId, String startTime, Float medical, Float unemp, Float accu, Float aged) {
         BaseResponse response = new BaseResponse();
@@ -159,9 +183,7 @@ public class InsuranceServiceImpl extends ServiceImpl<InsuranceMapper, Insurance
         ew.where("staff_id={0}", staffId);
         ew.like("insurance_time", time.substring(0, 7));
         List<Insurance> insurances = baseMapper.selectList(ew);
-//        if (CollectionUtils.isEmpty(insurances)) {
-//
-//        }
+
         return insurances.get(0);
     }
 }

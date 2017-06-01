@@ -63,4 +63,7 @@ public interface IAbsentInfoService extends IService<AbsentInfo> {
     BaseResponse sendAbsentInfoToHr(String staffId);
 
     BaseResponse<StaffAbsentInfoResult> hrCheckAbsentInfo(AbsentInfoQueryParam param);
+
+
+    BaseResponse turnBackApplication(ApplyLeaveParam applyLeaveParam);
 }

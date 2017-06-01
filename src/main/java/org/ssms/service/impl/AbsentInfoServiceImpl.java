@@ -95,6 +95,9 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
                 if (Objects.equals(absentInfo.getAbsentState(), "done")) {
                     absentInfoPage.getRecords().get(i).setAbsentState("已统计");
                 }
+                if (Objects.equals(absentInfo.getAbsentState(), "s_turnBack")) {
+                    absentInfoPage.getRecords().get(i).setAbsentState("已撤回");
+                }
             }
 
             AbsentInfoResult absentInfoResult = new AbsentInfoResult();
@@ -302,5 +305,26 @@ public class AbsentInfoServiceImpl extends ServiceImpl<AbsentInfoMapper, AbsentI
         return response;
     }
 
+    @Override
+    public BaseResponse turnBackApplication(ApplyLeaveParam param) {
+        BaseResponse response = new BaseResponse();
 
+        EntityWrapper<AbsentInfo> ew = new EntityWrapper<>();
+        ew.where("staff_id={0}", param.getStaffId());
+        ew.and("absent_start_time={0}", param.getAbsentStartTime());
+
+        try {
+            AbsentInfo absentInfo = absentInfoMapper.selectList(ew).get(0);
+
+            absentInfo.setAbsentState("s_turnBack");
+            absentInfo.setAbsentCheckTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
+            update(absentInfo, ew);
+        } catch (Exception e) {
+            log.error("撤回请假申请异常：", e);
+            response.setCode("1");
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
 }

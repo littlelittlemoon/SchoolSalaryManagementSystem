@@ -39,6 +39,19 @@ public class AbsentInfoController {
         return JSON.toJSONString(response);
 
     }
+    /**
+     * 员工撤回申请请假接口
+     *
+     * @param applyLeaveParam
+     * @return
+     */
+    @RequestMapping(value = "turnBack", method = RequestMethod.POST)
+    public String turnBack(ApplyLeaveParam applyLeaveParam) {
+        BaseResponse response = absentInfoService.turnBackApplication(applyLeaveParam);
+
+        return JSON.toJSONString(response);
+
+    }
 
     /**
      * 根据员工id返回考勤信息接口
