@@ -45,7 +45,7 @@ public class MpGenerator {
         });
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("Yyue090399@");
+        dsc.setPassword("dbpassword");
         dsc.setUrl("jdbc:mysql://127.0.0.1:3306/ssms?characterEncoding=utf8");
         mpg.setDataSource(dsc);
 
