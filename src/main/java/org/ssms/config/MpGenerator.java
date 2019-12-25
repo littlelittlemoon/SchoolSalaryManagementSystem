@@ -43,10 +43,10 @@ public class MpGenerator {
                 return super.processTypeConvert(fieldType);
             }
         });
-        dsc.setDriverName("com.mysql.jdbc.Driver");
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("root");
-        dsc.setUrl("jdbc:mysql://60.205.203.198:3306/ssms?characterEncoding=utf8");
+        dsc.setPassword("Yyue090399@");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/ssms?characterEncoding=utf8");
         mpg.setDataSource(dsc);
 
 

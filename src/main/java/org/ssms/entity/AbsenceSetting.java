@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -16,6 +19,7 @@ import java.io.Serializable;
  * @since 2017-05-28
  */
 @TableName("t_absence_setting")
+@Table(name = "t_absence_setting")
 @Data
 public class AbsenceSetting extends Model<AbsenceSetting> {
 
@@ -24,6 +28,8 @@ public class AbsenceSetting extends Model<AbsenceSetting> {
     /**
      * id
      */
+    @Id
+    @GeneratedValue
     private String id;
     /**
      * 缺勤类型
