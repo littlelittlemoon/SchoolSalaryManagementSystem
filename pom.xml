@@ -20,7 +20,7 @@
         <mysql.connector.version>8.0.13</mysql.connector.version>
         <velocity.version>1.7</velocity.version>
         <lombok.version>1.16.14</lombok.version>
-        <common-lang.version>3.5</common-lang.version>
+        <common-lang.version>3.18.0</common-lang.version>
     </properties>
 
     <dependencies>
